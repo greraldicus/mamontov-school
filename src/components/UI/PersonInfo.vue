@@ -1,9 +1,10 @@
 <template>
   <div class="person-info">
-    <person-avatar
-    :img_path="'../../images/baretskiy-avatar.jpg'"
+
+    <avatar-button
+    :avatarImgPath="'../../images/baretskiy-avatar.jpg'"
     >
-    </person-avatar>
+    </avatar-button>
     <div class="person-chars">
       <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
       <!-- <h2>{{ personInfo.department }}</h2> -->
@@ -13,13 +14,13 @@
 </template>
 
 <script>
-  import PersonAvatar from "./PersonAvatar.vue";
+  import AvatarButton from "./AvatarButton.vue";
   import { getTokenPayload } from "@/utils/authUtils";
   import { getPersonInfo } from "@/api/api";
 
   export default {
     components: {
-      PersonAvatar
+      AvatarButton
     },
     data() {
       return {
@@ -50,6 +51,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
   }
   .person-chars {
     display: flex;

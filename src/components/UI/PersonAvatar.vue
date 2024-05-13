@@ -1,12 +1,18 @@
 <template>
-  <div class="avatar" :style="avatarStyles"></div>
+  <div 
+  class="avatar"
+  :style="avatarStyles"
+  @click="this.$emit('avatarClicked')"
+  >
+  </div>
 </template>
 
 <script>
   export default {
     props: {
-      img_path: {
+      imgPath: {
         type: String,
+        default: "../../images/baretskiy-avatar.jpg"
       }
     },
     computed: {
@@ -24,5 +30,7 @@
     width: 90px;
     height: 90px;
     border-radius: 50%;
+    cursor: pointer;
+    background-color: black;
   }
 </style>

@@ -4,6 +4,10 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(';').shift();
 } // если такого куки нет, возвращает undefined
 
+function deleteCookie(name) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+} // устанавливает истекшую дату данному куки
+
 function getTokenPayload(name) {
 
   const token = getCookie(name);
@@ -33,6 +37,7 @@ function isAuthenticated() {
 
 export {
   getCookie,
+  deleteCookie,
   isAuthenticated,
   getFormattedCookie,
   getTokenPayload,
