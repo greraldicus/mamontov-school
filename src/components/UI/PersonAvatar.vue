@@ -18,7 +18,7 @@
     computed: {
       avatarStyles() {
         return {
-          backgroundImage: `url(${this.img_path})`,
+          backgroundImage: `url(${this.imgPath})`,
         }
       }
     }

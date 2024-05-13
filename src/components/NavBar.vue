@@ -2,9 +2,15 @@
   <div class="nav-bar">
     <div class="header">
       <img src="https://www.parma.ru/img/Logo-2-31.svg">
-      <person-info></person-info>
+      <logout-button></logout-button>
     </div>
     <div class="nav-items">
+      <div class="person-chars">
+        <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
+        <h2>{{ personInfo.department }}</h2>
+        <h2>{{ personInfo.tenure }}</h2>
+      </div>
+
       <text-button
       v-for="item in navItems"
       :content="item.content"
@@ -19,11 +25,13 @@
 </template>
 
 <script>
-  import PersonInfo from "./UI/PersonInfo";
+  import LogoutButton from "./UI/LogoutButton";
   import TextButton from "./UI/TextButton";
+  import { getTokenPayload } from "@/utils/authUtils";
+  import { getPersonInfo } from "@/api/api";
   export default {
     components: {
-      PersonInfo,
+      LogoutButton,
       TextButton
     },
     data() {
@@ -41,7 +49,12 @@
           {
             content: "Настройки"
           }
-        ]
+        ],
+        personInfo: {
+          name: "",
+          surname: "",
+          tenure: ""
+        }
       }
     },
     methods: {
@@ -58,7 +71,17 @@
             break;
         }
       }
-    }
+    },
+    mounted() {
+      let acsPayload = getTokenPayload('access-token');
+      let personId = acsPayload.sub;
+
+      getPersonInfo(personId)
+      .then(response => {
+        this.personInfo = response;
+        console.log(response);
+      });
+    },
   }
 </script>
 
@@ -96,5 +119,24 @@
   .last-button {
     position: absolute;
     right: 100px;
+  }
+  .person-chars {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    margin-left: 10px;
+  }
+  .person-chars h1{
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .person-chars h2{
+    font-size: 12px;
+    color: #FF0000;
+  }
+  .person-chars > h2{
+    margin-bottom: 10px;
   }
 </style>

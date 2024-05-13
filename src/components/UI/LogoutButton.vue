@@ -1,15 +1,22 @@
 <template>
-  <div class="person-info">
+  <div class="logout-btn">
 
-    <avatar-button
+    <!-- <avatar-button
     :avatarImgPath="'../../images/baretskiy-avatar.jpg'"
     >
-    </avatar-button>
-    <div class="person-chars">
+    </avatar-button> -->
+    <img src="@/images/exit.png">
+    <text-button
+    :content="'Выйти'"
+    :style="'color: white;'"
+    @buttonClicked="logout"
+    >
+    </text-button>
+    <!-- <div class="person-chars">
       <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
-      <!-- <h2>{{ personInfo.department }}</h2> -->
+      <h2>{{ personInfo.department }}</h2>
       <h2>{{ personInfo.tenure }}</h2>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -17,10 +24,13 @@
   import AvatarButton from "./AvatarButton.vue";
   import { getTokenPayload } from "@/utils/authUtils";
   import { getPersonInfo } from "@/api/api";
+  import TextButton from "@/components/UI/TextButton.vue";
+  import { deleteCookie } from "@/utils/authUtils.js"
 
   export default {
     components: {
-      AvatarButton
+      AvatarButton,
+      TextButton
     },
     data() {
       return {
@@ -40,35 +50,31 @@
         this.personInfo = response;
         console.log(response);
       });
+    },
+    methods: {
+      logout() {
+        deleteCookie('access-token');
+        deleteCookie('refresh-token');
+        this.$router.push('/auth');
+      }
     }
   }
 </script>
 
 <style scoped>
-  .person-info {
-    width: 320px;
-    height: 100px;
+  img {
+    height: 25px;
+    width: 25px;
+  }
+  .logout-btn {
+    width: 130px;
+    height: 50px;
+    border-radius: 25px;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     position: relative;
-  }
-  .person-chars {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    justify-content: center;
-    margin-left: 10px;
-  }
-  .person-chars h1{
-    font-size: 22px;
-    margin-bottom: 10px;
-  }
-  .person-chars h2{
-    font-size: 12px;
-    color: #FF0000;
-  }
-  .person-chars > h2{
-    margin-bottom: 10px;
+    background-color: red;
   }
 </style>

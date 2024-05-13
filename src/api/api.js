@@ -1,7 +1,7 @@
 const baseURL = "https://parma-coworking.ru";
 const prefixOne = 'api_v1';
 
-// import router from "../router";
+import router from "../router";
 import { isAuthenticated } from "@/utils/authUtils";
 import { getCookie } from "@/utils/authUtils";
 
