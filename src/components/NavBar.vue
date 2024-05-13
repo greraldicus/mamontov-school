@@ -5,21 +5,24 @@
       <logout-button></logout-button>
     </div>
     <div class="nav-items">
-      <div class="person-chars">
-        <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
-        <h2>{{ personInfo.department }}</h2>
-        <h2>{{ personInfo.tenure }}</h2>
+      <div class="info-windows">
+        <div class="person-chars">
+          <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
+          <h2>{{ personInfo.department }}</h2>
+          <h2>{{ personInfo.tenure }}</h2>
+        </div>
+        <!-- TODO: ЗДЕСЬ КОМПОНЕНТ БРОНИ БУДЕТ-->
       </div>
-
-      <text-button
-      v-for="item in navItems"
-      :content="item.content"
-      :style="{ color: '#0F2232', 'margin-right': '45px', 'margin-bottom': '10px' }"
-      :class="{ 'last-button': item.content === 'Настройки'}"
-      @buttonClicked="setRoute"
-      >
-      </text-button>
-      
+      <div class="text-buttons">
+        <text-button
+        v-for="item in navItems"
+        :content="item.content"
+        :style="{ color: '#0F2232', 'margin-right': '45px', 'margin-bottom': '10px' }"
+        :class="{ 'last-button': item.content === 'Настройки'}"
+        @buttonClicked="setRoute"
+        >
+        </text-button>
+      </div>
     </div>
   </div>
 </template>
@@ -107,8 +110,9 @@
   .nav-items {
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-end;
+    justify-content: space-between;
     width: 100%;
     height: 250px;
     background-color: white;
@@ -119,6 +123,13 @@
   .last-button {
     position: absolute;
     right: 100px;
+  }
+  .info-windows {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 25px;
   }
   .person-chars {
     position: relative;
@@ -138,5 +149,11 @@
   }
   .person-chars > h2{
     margin-bottom: 10px;
+  }
+  .text-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
   }
 </style>

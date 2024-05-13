@@ -1,17 +1,14 @@
 <template>
-  <div class="logout-btn">
+  <div class="logout-btn"
+  @click="logout"
+  >
 
     <!-- <avatar-button
     :avatarImgPath="'../../images/baretskiy-avatar.jpg'"
     >
     </avatar-button> -->
     <img src="@/images/exit.png">
-    <text-button
-    :content="'Выйти'"
-    :style="'color: white;'"
-    @buttonClicked="logout"
-    >
-    </text-button>
+    Выйти
     <!-- <div class="person-chars">
       <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
       <h2>{{ personInfo.department }}</h2>
@@ -22,8 +19,6 @@
 
 <script>
   import AvatarButton from "./AvatarButton.vue";
-  import { getTokenPayload } from "@/utils/authUtils";
-  import { getPersonInfo } from "@/api/api";
   import TextButton from "@/components/UI/TextButton.vue";
   import { deleteCookie } from "@/utils/authUtils.js"
 
@@ -34,22 +29,7 @@
     },
     data() {
       return {
-        personInfo: {
-          name: "",
-          surname: "",
-          tenure: ""
-        }
       }
-    },
-    mounted() {
-      let acsPayload = getTokenPayload('access-token');
-      let personId = acsPayload.sub;
-
-      getPersonInfo(personId)
-      .then(response => {
-        this.personInfo = response;
-        console.log(response);
-      });
     },
     methods: {
       logout() {
@@ -76,5 +56,7 @@
     align-items: center;
     position: relative;
     background-color: red;
+    cursor: pointer;
+    color: white;
   }
 </style>
