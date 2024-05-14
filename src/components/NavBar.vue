@@ -11,7 +11,7 @@
           <h2>{{ personInfo.department }}</h2>
           <h2>{{ personInfo.tenure }}</h2>
         </div>
-        <!-- TODO: ЗДЕСЬ КОМПОНЕНТ БРОНИ БУДЕТ-->
+        <booking-info></booking-info>
       </div>
       <div class="text-buttons">
         <text-button
@@ -30,12 +30,14 @@
 <script>
   import LogoutButton from "./UI/LogoutButton";
   import TextButton from "./UI/TextButton";
+  import BookingInfo from "./UI/BookingInfo";
   import { getTokenPayload } from "@/utils/authUtils";
   import { getPersonInfo } from "@/api/api";
   export default {
     components: {
       LogoutButton,
-      TextButton
+      TextButton,
+      BookingInfo
     },
     data() {
       return {
@@ -127,7 +129,8 @@
   .info-windows {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin-top: 25px;
   }
