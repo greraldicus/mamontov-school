@@ -50,8 +50,7 @@
             console.log(content);
             switch(content) {
               case('Домой'):
-
-                break;
+                window.open('https://vk.com/stasbareckiy', '_blank');
               case('Контакты'):
 
                 break;
