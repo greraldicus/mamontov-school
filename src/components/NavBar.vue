@@ -6,10 +6,16 @@
     </div>
     <div class="nav-items">
       <div class="info-windows">
-        <div class="person-chars">
-          <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
-          <h2>{{ personInfo.department }}</h2>
-          <h2>{{ personInfo.tenure }}</h2>
+        <div class="person-info">
+          <person-avatar
+          :imgPath="'@/images/baretskiy-avatar.jpg'"
+          >
+          </person-avatar>
+          <div class="person-chars">
+            <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
+            <h2>{{ personInfo.department }}</h2>
+            <h2>{{ personInfo.tenure }}</h2>
+          </div>
         </div>
         <booking-info></booking-info>
       </div>
@@ -31,13 +37,15 @@
   import LogoutButton from "./UI/LogoutButton";
   import TextButton from "./UI/TextButton";
   import BookingInfo from "./UI/BookingInfo";
+  import PersonAvatar from "./UI/PersonAvatar";
   import { getTokenPayload } from "@/utils/authUtils";
   import { getPersonInfo } from "@/api/api";
   export default {
     components: {
       LogoutButton,
       TextButton,
-      BookingInfo
+      BookingInfo,
+      PersonAvatar
     },
     data() {
       return {
@@ -158,5 +166,9 @@
     flex-direction: row;
     justify-content: flex-start;
     width: 100%;
+  }
+  .person-info {
+    display: flex;
+    flex-direction: row;
   }
 </style>

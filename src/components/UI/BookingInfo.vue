@@ -52,14 +52,12 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-left: 30px;
-    margin-right: 30px;
     border-radius: 25px;
     box-shadow: 2px 2px 10px rgba(128, 128, 128, 0.5);
 
   }
   .number-of-booking {
-    font-weight: 800px;
+    font-weight: 800;
     font-size: 50px;
     margin-right: 50px;
     color: #FF0000;
