@@ -15,7 +15,7 @@ deploy:
   script:
     - chmod 600 $SSH_KEY
     - ssh -t -o StrictHostKeyChecking=no -i $SSH_KEY -p 41254 root@46.39.238.253 'docker kill test-frontend || true && docker rm test-frontend || true && docker pull baretskiy.ru:5050/tiurikov.gv/coworking-frontend && docker run --name test-frontend -d -p 8081:8081 --restart=on-failure baretskiy.ru:5050/tiurikov.gv/coworking-frontend'
-    - ssh -t -o StrictHostKeyChecking=no -i $SSH_KEY -p 41254 root@46.39.238.253 image prune -a --force --filter "until=1h"'
+    - ssh -t -o StrictHostKeyChecking=no -i $SSH_KEY -p 41254 root@46.39.238.253 'image prune -a --force --filter "until=1h"'
   only:
     - main
 
