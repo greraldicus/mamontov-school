@@ -3,7 +3,10 @@ import BookingView from "./views/BookingView";
 import MapView from "./views/MapView";
 import ProfileView from "./views/ProfileView";
 import ModalStartMenu from "./components/modals/ModalStartMenu";
-import Home from "./components/Home"
+import Home from "./components/Home";
+import AdminPanel from './components/AdminPanel.vue';
+import AdminBookingView from "./views/AdminBookingView";
+import AdminUsersView from "./views/AdminUsersView";
 import { isAuthenticated } from "./utils/authUtils";
 
 const router = createRouter({
@@ -36,6 +39,24 @@ const router = createRouter({
         {
           path: 'map',
           component: MapView
+        }
+      ]
+    },
+    {
+      path: '/admin',
+      component: AdminPanel,
+      children: [
+        {
+          path: '', 
+          redirect: '/admin/users'
+        },
+        {
+          path: 'users',
+          component: AdminUsersView
+        },
+        {
+          path: 'booking',
+          component: AdminBookingView
         }
       ]
     }

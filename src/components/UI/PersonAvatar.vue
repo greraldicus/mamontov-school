@@ -31,6 +31,6 @@
     height: 90px;
     border-radius: 50%;
     cursor: pointer;
-    background-color: black;
+    background-size: cover;
   }
 </style>

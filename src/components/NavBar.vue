@@ -1,14 +1,11 @@
 <template>
   <div class="nav-bar">
-    <div class="header">
-      <img src="https://www.parma.ru/img/Logo-2-31.svg">
-      <logout-button></logout-button>
-    </div>
+    <header-bar></header-bar>
     <div class="nav-items">
       <div class="info-windows">
         <div class="person-info">
           <person-avatar
-          :imgPath="'@/images/baretskiy-avatar.jpg'"
+          :imgPath="this.personInfo.img_url"
           >
           </person-avatar>
           <div class="person-chars">
@@ -34,7 +31,7 @@
 </template>
 
 <script>
-  import LogoutButton from "./UI/LogoutButton";
+  import HeaderBar from "./HeaderBar";
   import TextButton from "./UI/TextButton";
   import BookingInfo from "./UI/BookingInfo";
   import PersonAvatar from "./UI/PersonAvatar";
@@ -42,7 +39,7 @@
   import { getPersonInfo } from "@/api/api";
   export default {
     components: {
-      LogoutButton,
+      HeaderBar,
       TextButton,
       BookingInfo,
       PersonAvatar
@@ -66,7 +63,8 @@
         personInfo: {
           name: "",
           surname: "",
-          tenure: ""
+          tenure: "",
+          img_url: ""
         }
       }
     },
@@ -88,7 +86,7 @@
     mounted() {
       let acsPayload = getTokenPayload('access-token');
       let personId = acsPayload.sub;
-
+      console.log(personId);
       getPersonInfo(personId)
       .then(response => {
         this.personInfo = response;
@@ -99,24 +97,6 @@
 </script>
 
 <style scoped>
-  .header {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 100px;
-    background-color: white;
-    box-shadow: 2px 2px 10px rgba(128, 128, 128, 0.5);
-    z-index: 2;
-    padding-left: 100px;
-    padding-right: 100px;
-  }
-  .header img {
-    height: 100px;
-    width: 200px;
-  }
   .nav-items {
     position: relative;
     display: flex;

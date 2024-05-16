@@ -22,10 +22,6 @@
         Войти
         </button>
       </form>
-      <text-button
-      :content="'Зарегистрироваться'"
-      >
-      </text-button>
       <button-close
       @buttonClicked="this.$emit('closeModalWindow')"
       > 
@@ -101,7 +97,7 @@
     position: relative;
     z-index: 2;
     width: 350px;
-    height: 400px;
+    height: 320;
     border-radius: 10px;
     box-shadow: 0 10px 15px rgba(0,0,0, .4);
     background-color: #D9D9D9AB;
