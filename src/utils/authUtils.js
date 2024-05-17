@@ -35,10 +35,16 @@ function isAuthenticated() {
   return currentDate < expirationDate;
 }
 
+function isAdmin() {
+  const payload = getTokenPayload('access-token');
+  return payload.role === 'admin';
+}
+
 export {
   getCookie,
   deleteCookie,
   isAuthenticated,
   getFormattedCookie,
   getTokenPayload,
+  isAdmin
 }

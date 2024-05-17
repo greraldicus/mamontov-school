@@ -13,12 +13,15 @@
           style="display: flex; flex-direction: column; justify-content: flex-start">
             <h1 style="font-weight: 500; font-size: 20px; margin-bottom:15px;">Загрузить новую фотографию</h1>
             <input type="file" style="margin-bottom: 10px">
-            <p>Идеальный размер изображения 141x108 пикселей.<br>
+            <p style="font-weight: 300;">Идеальный размер изображения 141x108 пикселей.<br>
               Максимальный размер файла - 200КБ</p>
           </div>
         </div>
       </div>
-      <h1 style="font-size: 20px; font-weight: 600; margin-top: 20px; margin-bottom: 20px;">Пользователь  </h1>
+      <hr class="separator">
+      <h1 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">
+        Пользователь
+      </h1>
       <form class="user-data-form">
         <div class="user-fio-info">
           <div class="surname">
@@ -35,18 +38,26 @@
           </div>
         </div>
         <div class="user-other-info">
-        <div class="birthdate">
-          <h2>Дата рождения</h2>
-          <input v-model="this.personInfo.birthdate"> <!-- пока нет такого-->
-        </div> 
-        <div class="tenure">
-          <h2>Должность</h2>
-          <input v-model="this.personInfo.tenure">
+          <div class="birthdate">
+            <h2>Дата рождения</h2>
+            <input v-model="this.personInfo.date_of_birth"> <!-- пока нет такого-->
+          </div> 
+          <div class="tenure">
+            <h2>Должность</h2>
+            <input v-model="this.personInfo.tenure">
+          </div>
         </div>
-        </div>
-  </form>
+      </form>
+      <hr class="separator">
+      <h1 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">
+        Пользователь
+      </h1>
       <div class="accounts-wrapper">
-        <!--Тут таблица учетных записей-->
+        <!-- <table-item
+
+        >
+
+        </table-item> -->
       </div>
       <button-close
       @buttonClicked="this.$emit('closeModalWindow')"
@@ -61,6 +72,8 @@
   import ButtonClose from "../UI/ButtonClose.vue";
   import PersonAvatar from "../UI/PersonAvatar.vue";
   import { getPersonInfoById } from "@/api/api.js"; 
+  import TableItem from "../UI/TableItem.vue";
+  import { getPersons } from "@/api/api.js";
   export default {
     props: {
       activeUserId: {
@@ -70,6 +83,7 @@
     components: {
       ButtonClose,
       PersonAvatar,
+      TableItem
     },
     data() {
       return {
@@ -77,21 +91,25 @@
           name: "",
           surname: "",
           img_url: "",
-          tenure: ""
+          tenure: "",
+          date_of_birth: ""
         }
       }
     },
     watch: {
-    activeUserId: {
-      immediate: true,
-      handler(newVal) {
-        getPersonInfoById(newVal)
-        .then(response => {this.personInfo = response;
-          console.log(response);}
-        );
+      activeUserId: {
+        immediate: true,
+        handler(newVal) {
+          getPersonInfoById(newVal)
+          .then(response => {this.personInfo = response;
+            console.log(response);}
+          );
+        }
       }
+    },
+    mounted() {
+      getPersons();
     }
-  },
   }
 </script>
 
@@ -124,16 +142,29 @@
     align-items: left;
     position: relative;
     z-index: 5;
-    width: 80%;
+    min-width: 80%;
     height: 80%;
     border-radius: 10px;
     box-shadow: 0 10px 15px rgba(0,0,0, .4);
     background-color: white;
     padding: 30px;
   }
+  .avatar-wrapper input {
+    height: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: white;
+  }
   .avatar-data {
     display: flex;
     flex-direction: row;
+  }
+  .separator {
+    border: none;
+    border-top: 1px solid #D9D9D9;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
   form {
     display: flex;
@@ -141,11 +172,13 @@
   }
   form input {
     border: 1px solid #D9D9D9;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 300px;
     height: 30px;
     padding-left: 10px;
     padding-right: 10px;
+    font-weight: 400;
+    font-size: 14px;
   }
   .user-fio-info {
     margin-right: 75px;

@@ -20,10 +20,9 @@ async function authenticateUser(login, password) {
     if (response.ok) {
       return response.json();
     } else {
-      throw new Error(`Запрос завершился неудачно с кодом ошибки ${response.status}`);
+      throw new Error(response.status);
     }
   })
-  .catch(error => alert(error.message));
 }
 
 async function getPersonInfo() {
@@ -44,10 +43,9 @@ async function getPersonInfo() {
     if (response.ok) {
       return response.json();
     } else {
-      throw new Error(`Запрос завершился неудачно с кодом ошибки ${response.status}`);
+      throw new Error(response.status);
     }
   })
-  .catch(error => alert(error.message));
   }
 }
 
@@ -69,15 +67,39 @@ async function getPersonInfoById(id) {
     if (response.ok) {
       return response.json();
     } else {
-      throw new Error(`Запрос завершился неудачно с кодом ошибки ${response.status}`);
+      throw new Error(response.status);
     }
   })
-  .catch(error => alert(error.message));
+  }
+}
+
+async function getPersons() {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+  let accessToken = getCookie('access-token');
+  let options = {
+    method: 'GET',
+    headers: {
+      'accept': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+  }
+  return fetch(`${baseURL}/${prefixOne}/get_persons`, options)
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error(response.status);
+    }
+  })
   }
 }
 
 export {
   authenticateUser,
   getPersonInfo,
-  getPersonInfoById
+  getPersonInfoById,
+  getPersons
 }

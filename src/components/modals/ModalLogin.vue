@@ -37,6 +37,7 @@
   import { authenticateUser } from "../../api/api.js";
   import { getFormattedCookie } from "../../utils/authUtils.js";
   import { getTokenPayload } from "../../utils/authUtils.js";
+  import { isAdmin } from "../../utils/authUtils.js";
   export default {
     components: {
       ButtonClose,
@@ -60,7 +61,29 @@
           document.cookie = getFormattedCookie('access-token', accessToken);
           document.cookie = getFormattedCookie('refresh-token', refreshToken);
           
-          this.$router.push('/home');
+          if (isAdmin()) {
+            this.$router.push('/admin');
+          } else {
+            this.$router.push('/home');
+          }
+        })
+        .catch(error => {
+          switch(error.message) {
+            case('401'):
+              if (!document.getElementById('unauthorized-message')) {
+                let unAuthorizedMessageElement = document.createElement('p');
+                unAuthorizedMessageElement.id = 'unauthorized-message'
+                unAuthorizedMessageElement.textContent = 'Неправильный логин или пароль';
+                unAuthorizedMessageElement.style.color = 'red';
+                unAuthorizedMessageElement.style.fontSize = '14px';
+                unAuthorizedMessageElement.style.marginTop = '4px';
+                unAuthorizedMessageElement.style.marginBottom = '20px';
+                let pswdInput = document.getElementById('last-input');
+                pswdInput.style.marginBottom = '20px';
+                pswdInput.insertAdjacentElement('afterend', unAuthorizedMessageElement);
+              }
+              break;
+          }
         })
       }
     }

@@ -19,6 +19,7 @@
 <script>
   import TableItem from "@/components/UI/TableItem.vue";
   import ModalUserInfo from "@/components/modals/ModalUserInfo.vue";
+  import { getPersons}  from "@/api/api.js";
   export default {
     components: {
       TableItem,
@@ -54,6 +55,20 @@
       setActiveId(id) {
         this.activeUserId = id;
       }
+    },
+    mounted() {
+      getPersons()
+      .then(response => {
+        response.forEach(item => {
+          item['ФИО'] = item['name'] + " " + item['surname'] + " " + item['patronymic'];
+          delete item['name'];
+          delete item['surname'];
+          delete item['patronymic'];
+          delete item['img_url'];
+        })
+        this.usersList = response;
+      }
+      )
     }
   }
 </script>
