@@ -18,24 +18,31 @@
           </div>
         </div>
       </div>
+      <h1 style="font-size: 20px; font-weight: 600; margin-top: 20px; margin-bottom: 20px;">Пользователь  </h1>
       <form class="user-data-form">
         <div class="user-fio-info">
-          <h1>Пользователь  </h1>
           <div class="surname">
             <h2>Фамилия</h2>
-            <input v-model="this.personalData.name">
+            <input v-model="this.personInfo.name">
           </div>
           <div class="name">
             <h2>Имя</h2>
-            <input v-model="this.personalData.surname">
+            <input v-model="this.personInfo.surname">
           </div>
           <div class="patronymic">
             <h2>Отчество</h2>
-            <input v-model="this.personalData.patronymic">
+            <input v-model="this.personInfo.patronymic">
           </div>
         </div>
         <div class="user-other-info">
-
+        <div class="birthdate">
+          <h2>Дата рождения</h2>
+          <input v-model="this.personInfo.birthdate"> <!-- пока нет такого-->
+        </div> 
+        <div class="tenure">
+          <h2>Должность</h2>
+          <input v-model="this.personInfo.tenure">
+        </div>
         </div>
   </form>
       <div class="accounts-wrapper">
@@ -53,7 +60,7 @@
 <script>
   import ButtonClose from "../UI/ButtonClose.vue";
   import PersonAvatar from "../UI/PersonAvatar.vue";
-  import { getPersonInfo } from "@/api/api.js"; 
+  import { getPersonInfoById } from "@/api/api.js"; 
   export default {
     props: {
       activeUserId: {
@@ -74,12 +81,17 @@
         }
       }
     },
-    mounted() {
-      getPersonInfo(this.activeUserId)
-      .then(response => {this.personInfo = response
-      console.log(response.img_url);}
-      );
+    watch: {
+    activeUserId: {
+      immediate: true,
+      handler(newVal) {
+        getPersonInfoById(newVal)
+        .then(response => {this.personInfo = response;
+          console.log(response);}
+        );
+      }
     }
+  },
   }
 </script>
 
@@ -123,4 +135,26 @@
     display: flex;
     flex-direction: row;
   }
+  form {
+    display: flex;
+    flex-direction: row;
+  }
+  form input {
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    width: 300px;
+    height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .user-fio-info {
+    margin-right: 75px;
+  }
+  .user-data-form h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
 </style>
