@@ -1,41 +1,58 @@
 <template>
   <table>
-    <tr 
+    <thead>
+      <th
+      v-for="header in headersList"
+      >
+      {{ header }}
+      </th>
+    </thead>
+    <table-row-button
     v-for="object in objectsList"
+    :object="object"
+    @rowClicked="processRowClick"
+    :class="{ 'active-row': activeUserId === object.id }"
     >
-      <td
-      v-for="objProp in object">
-        {{ objProp }}
-      </td>
-    </tr>
+    </table-row-button>
   </table>
 </template>
 
 <script>
+  import TableRowButton from "./TableRowButton";
+  import ModalUserInfo from "@/components/modals/ModalUserInfo";
   export default {
+    components: {
+      TableRowButton,
+      ModalUserInfo
+    },
     props: {
-      objectsList: { // m x n
+      objectsList: { 
         type: Array
+      },
+      activeUserId: {
+        type: Number
       }
     },
     data() {
       return {
       }
     },
-    watch: {
-      objectsList: {
-        handler(val, oldVal) {
-          if (val.length > 0) {
-            let firstObj = val[0];
-            let th = document.createElement('th');
-            for (let prop in firstObj) {
-              let td = document.createElement('td');
-              td.textContent = prop;
-              th.append(td);
-            }
-            this.$el.append(th);
+    computed: {
+      headersList() {
+        if (this.objectsList !== null && this.objectsList.length > 0) {
+          let headersList = [];
+          let obj = this.objectsList[0]; 
+          for (let key in obj) {
+            headersList.push(key);
+          }
+          return headersList;
         }
       }
+    },
+    methods: {
+      processRowClick(id) {
+        this.$emit('setActiveId', id);
+        this.$emit('showModal');
       }
     }
   }
@@ -47,8 +64,12 @@
     border-collapse: collapse;
   }
 
-  th, td {
-    padding-left: 10px;
-    padding-right: 10px;
+  th {
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 20px;
+    
   }
 </style>

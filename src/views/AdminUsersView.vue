@@ -4,15 +4,25 @@
     <table-item
     :objectsList="this.usersList"
     :style="'width: 100%;'"
+    @showModal="this.modalVisible = true"
+    @setActiveId="setActiveId"
+    :activeUserId="this.activeUserId"
     ></table-item>
+    <modal-user-info
+    v-if="modalVisible"
+    @closeModalWindow="this.modalVisible = false"
+    :activeUserId="this.activeUserId"
+    ></modal-user-info>
   </div>
 </template>
 
 <script>
   import TableItem from "@/components/UI/TableItem.vue";
+  import ModalUserInfo from "@/components/modals/ModalUserInfo.vue";
   export default {
     components: {
-      TableItem
+      TableItem,
+      ModalUserInfo
     },
     data() {
       return {
@@ -27,7 +37,7 @@
             id: 2,
             name: "Grigorii Beshliaga",
             birthdate: "15.05.2001",
-            dolg: "Fucker"
+            dolg: "Director"
           },
           {
             id: 3,
@@ -35,7 +45,14 @@
             birthdate: "15.05.2002",
             dolg: "Cleaner"
           }
-        ]
+        ],
+        activeUserId: null,
+        modalVisible: false,
+      }
+    },
+    methods: {
+      setActiveId(id) {
+        this.activeUserId = id;
       }
     }
   }

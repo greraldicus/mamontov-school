@@ -30,7 +30,7 @@
       height: 100px;
       background-color: white;
       box-shadow: 2px 2px 10px rgba(128, 128, 128, 0.5);
-      z-index: 2;
+      /* z-index: 2; */
       padding-left: 100px;
       padding-right: 100px;
     }

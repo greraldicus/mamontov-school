@@ -32,13 +32,12 @@
   .admin-panel {
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
     padding-top: 30px;
+    padding-bottom: 30px;
     background-color: #D9D9D9;
     padding-left: 100px;
     padding-right: 100px;
     height: 100vh;
-  }
-  .admin-panel .menu {
-    height: 90px;
   }
 </style>
