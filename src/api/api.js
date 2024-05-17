@@ -26,7 +26,7 @@ async function authenticateUser(login, password) {
   .catch(error => alert(error.message));
 }
 
-async function getPersonInfo(personId) {
+async function getPersonInfo() {
   if (!isAuthenticated()) {
     router.push('/auth');
   }
@@ -39,7 +39,7 @@ async function getPersonInfo(personId) {
       'Authorization': `Bearer ${accessToken}`
     },
   }
-  return fetch(`${baseURL}/${prefixOne}/get_person_info?person_id=${personId}`, options)
+  return fetch(`${baseURL}/${prefixOne}/me`, options) // TODO: УБРАТЬ personId, добавлять токен
   .then(response => {
     if (response.ok) {
       return response.json();

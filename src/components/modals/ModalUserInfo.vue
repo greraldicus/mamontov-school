@@ -18,9 +18,26 @@
           </div>
         </div>
       </div>
-      <div class="user-info-wrapper">
-        <!--Тут форма для редактирования пользователя-->
-      </div>
+      <form class="user-data-form">
+        <div class="user-fio-info">
+          <h1>Пользователь  </h1>
+          <div class="surname">
+            <h2>Фамилия</h2>
+            <input v-model="this.personalData.name">
+          </div>
+          <div class="name">
+            <h2>Имя</h2>
+            <input v-model="this.personalData.surname">
+          </div>
+          <div class="patronymic">
+            <h2>Отчество</h2>
+            <input v-model="this.personalData.patronymic">
+          </div>
+        </div>
+        <div class="user-other-info">
+
+        </div>
+  </form>
       <div class="accounts-wrapper">
         <!--Тут таблица учетных записей-->
       </div>

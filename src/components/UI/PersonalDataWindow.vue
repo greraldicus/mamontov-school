@@ -13,6 +13,7 @@
       </div>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -52,5 +53,12 @@
     flex-direction: row;
     justify-content: space-between;
     width: 300px;
+  }
+  .user-data-form {
+    display: flex;
+  }
+  .user-fio-info, .user-other-info {
+    display: flex;
+    flex-direction: row;
   }
 </style>
