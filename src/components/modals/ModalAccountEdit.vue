@@ -1,8 +1,8 @@
 <template>
   <div class="modal">
     <div class="modal-window">
-      <h2>Вход</h2>
-      <form>
+      <h2>Изменение данных</h2>
+      <form @submit.prevent>
         <input
         type="text"
         v-model="localLogin"
@@ -16,7 +16,7 @@
         >
         <button
         class="login-button"
-        @click="register"
+        @click="editUser"
         >
         Сохранить
         </button>
@@ -33,6 +33,7 @@
 <script>
   import ButtonClose from "../UI/ButtonClose.vue";
   import TextButton from "../UI/TextButton.vue";
+  import { updateUserCredentials } from "@/api/api.js"; 
   export default {
     components: {
       ButtonClose,
@@ -53,8 +54,10 @@
       }
     },
     methods: {
-      register() {
-
+      editUser() {
+        updateUserCredentials(this.localLogin, this.password, this.userId)
+        .then(response => alert('Данные пользователя успешно изменены'))
+        .catch(error => console.log(error.message));
       }
     },
   }

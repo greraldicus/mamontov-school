@@ -121,7 +121,7 @@ async function getAccountsByPersonId(id) {
   }
 }
 
-async function updateUserCredentials(login, password, user_id) {
+async function updateUserCredentials(login_, password_, user_id_) {
   if (!isAuthenticated()) {
     router.push('/auth');
   }
@@ -131,13 +131,14 @@ async function updateUserCredentials(login, password, user_id) {
       method: 'PATCH',
       headers: {
         'accept': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
       },
-      body: {
-        [login]: login,
-        [password]: password,
-        [user_id]: user_id
-      }
+      body: JSON.stringify({
+        login: login_,
+        password: password_,
+        user_id: user_id_
+      })
     }
     return fetch(`${baseURL}/${prefixOne}/users/update_user_credentials`, options)
     .then(response => {

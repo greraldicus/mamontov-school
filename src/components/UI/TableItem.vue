@@ -50,7 +50,7 @@
     methods: {
       processRowClick(object) {
         this.$emit('setActiveId', object);
-        this.$emit('rowClicked');
+        this.$emit('rowClicked', object);
       }
     }
   }

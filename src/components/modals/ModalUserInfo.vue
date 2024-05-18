@@ -55,6 +55,7 @@
       <div class="accounts-wrapper">
         <table-item
         :objectsList="this.personAccounts"
+        :activeUserId="this.credentialId"
         @rowClicked="processRowClick"
         >
         </table-item>
@@ -66,8 +67,9 @@
       <modal-account-edit
       v-if="modalVisible"
       @closeModalWindow="this.modalVisible = false"
+      :login="credentialLogin"
+      :userId="credentialId"
       >
-
       </modal-account-edit>
     </div>
     <div class = "overlay"></div>
@@ -81,7 +83,6 @@
   import TableItem from "@/components/UI/TableItem.vue";
   import { getAccountsByPersonId } from "@/api/api.js";
   import ModalAccountEdit from "@/components/modals/ModalAccountEdit.vue";
-  import { updateUserCredentials } from "@/api/api.js"; 
   export default {
     props: {
       activeUserId: {
@@ -114,7 +115,9 @@
         immediate: true,
         handler(newVal) {
           getPersonInfoById(newVal)
-          .then(response => this.personInfo = response);
+          .then(response => {
+            this.personInfo = response;
+          });
 
           getAccountsByPersonId(newVal)
           .then(response => this.personAccounts = response);
@@ -123,6 +126,7 @@
     },
     methods: {
       processRowClick(object) {
+        console.log(object);
         this.modalVisible = true;
         this.credentialId = object.user_id;
         this.credentialLogin = object.login;
