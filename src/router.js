@@ -8,6 +8,7 @@ import AdminPanel from './components/AdminPanel.vue';
 import AdminBookingView from "./views/AdminBookingView";
 import AdminUsersView from "./views/AdminUsersView";
 import { isAuthenticated } from "./utils/authUtils";
+import { isAdmin } from "./utils/authUtils";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -66,8 +67,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.path !== '/auth' && !isAuthenticated()) {
     next('/auth');
-  } else {
+  } else if (to.path.startsWith('/admin') && isAdmin() || !to.path.startsWith('/admin')) {
     next();
+  } else {
+    next('/home');
   }
 });
 

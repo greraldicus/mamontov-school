@@ -151,6 +151,73 @@ async function updateUserCredentials(login_, password_, user_id_) {
   }
 }
 
+async function createPerson(name, surname, patronymic, birthdate, imgUrl, tenrId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prsn_name: name,
+        prsn_surname: surname,
+        prsn_patronymic: patronymic,
+        prsn_birth_date: birthdate,
+        prsn_img_url: imgUrl,
+        prsn_tenr_id: tenrId
+      })
+    }
+    return fetch(`${baseURL}/${prefixOne}/create_person`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+async function updatePerson(name, surname, patronymic, birthdate, imgUrl, tenrId, prsnId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'PUT',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prsn_name: name,
+        prsn_surname: surname,
+        prsn_patronymic: patronymic,
+        prsn_birth_date: birthdate,
+        prsn_img_url: imgUrl,
+        prsn_tenr_id: tenrId,
+        prsn_id: prsnId
+      })
+    }
+    return fetch(`${baseURL}/${prefixOne}/update_person`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
 
 export {
   authenticateUser,
@@ -158,5 +225,7 @@ export {
   getPersonInfoById,
   getPersons,
   getAccountsByPersonId,
-  updateUserCredentials
+  updateUserCredentials,
+  createPerson,
+  updatePerson
 }

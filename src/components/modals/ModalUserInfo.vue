@@ -60,10 +60,25 @@
         >
         </table-item>
       </div>
-      <button-close
-      @buttonClicked="this.$emit('closeModalWindow')"
-      > 
-      </button-close>
+
+      <div class="data-buttons">
+        <button-item
+        :backgroundColor="'#7AD789'"
+        :fontColor="'#FFFFFF'"
+        :textContent="'Сохранить'"
+        ></button-item>
+        <button-item
+        :backgroundColor="'#D9D9D9'"
+        :fontColor="'#000000'"
+        :textContent="'Отмена'"
+        :style="'margin-left: 10px'"
+        ></button-item>
+        <button-close
+        @buttonClicked="this.$emit('closeModalWindow')"
+        > 
+        </button-close>
+      </div>
+
       <modal-account-edit
       v-if="modalVisible"
       @closeModalWindow="this.modalVisible = false"
@@ -83,6 +98,7 @@
   import TableItem from "@/components/UI/TableItem.vue";
   import { getAccountsByPersonId } from "@/api/api.js";
   import ModalAccountEdit from "@/components/modals/ModalAccountEdit.vue";
+  import ButtonItem from "@/components/UI/ButtonItem.vue";
   export default {
     props: {
       activeUserId: {
@@ -93,7 +109,8 @@
       TableItem,
       ButtonClose,
       PersonAvatar,
-      ModalAccountEdit
+      ModalAccountEdit,
+      ButtonItem
     },
     data() {
       return {
@@ -213,4 +230,10 @@
     margin-bottom: 5px;
   }
 
+  .data-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px; 
+    align-self: flex-end;
+  }
 </style>
