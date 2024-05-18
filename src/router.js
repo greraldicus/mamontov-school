@@ -10,9 +10,14 @@ import AdminUsersView from "./views/AdminUsersView";
 import { isAuthenticated } from "./utils/authUtils";
 import { isAdmin } from "./utils/authUtils";
 
+import SelectItem from "@/components/UI/SelectItem"; // import test component 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    {
+      path :'/test',
+      component: SelectItem
+    },
     {
       path: '/',
       redirect: '/auth'
@@ -65,7 +70,10 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.path !== '/auth' && !isAuthenticated()) {
+  if (to.path === '/test') {
+    next();
+  }
+  else if (to.path !== '/auth' && !isAuthenticated()) {
     next('/auth');
   } else if (to.path.startsWith('/admin') && isAdmin() || !to.path.startsWith('/admin')) {
     next();

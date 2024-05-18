@@ -12,7 +12,9 @@
           <div class="avatar-description"
           style="display: flex; flex-direction: column; justify-content: flex-start">
             <h1 style="font-weight: 500; font-size: 20px; margin-bottom:15px;">Загрузить новую фотографию</h1>
-            <input type="file" style="margin-bottom: 10px">
+            <input type="file"
+            style="margin-bottom: 10px"
+            @change="processFileUpload">
             <p style="font-weight: 300;">Идеальный размер изображения 141x108 пикселей.<br>
               Максимальный размер файла - 200КБ</p>
           </div>
@@ -38,14 +40,22 @@
           </div>
         </div>
         <div class="user-other-info">
+
           <div class="birthdate">
             <h2>Дата рождения</h2>
             <input v-model="this.personInfo.date_of_birth">
           </div> 
-          <div class="tenure">
+          
+          <div class="tenure" :style="'position: relative'">
             <h2>Должность</h2>
-            <input v-model="this.personInfo.tenure">
+            <input v-model="this.personInfo.tenure.tenr_title">
+            <select-item
+            :optionsList="tenuresList"
+            v-if="dropdownListVisible" 
+            @optionClicked="processOptionClick"
+            ></select-item>
           </div>
+
         </div>
       </form>
       <hr class="separator">
@@ -66,13 +76,16 @@
         :backgroundColor="'#7AD789'"
         :fontColor="'#FFFFFF'"
         :textContent="'Сохранить'"
+        @buttonClicked="savePerson"
         ></button-item>
+
         <button-item
         :backgroundColor="'#D9D9D9'"
         :fontColor="'#000000'"
         :textContent="'Отмена'"
         :style="'margin-left: 10px'"
         ></button-item>
+
         <button-close
         @buttonClicked="this.$emit('closeModalWindow')"
         > 
@@ -94,15 +107,24 @@
 <script>
   import ButtonClose from "../UI/ButtonClose.vue";
   import PersonAvatar from "../UI/PersonAvatar.vue";
-  import { getPersonInfoById } from "@/api/api.js"; 
   import TableItem from "@/components/UI/TableItem.vue";
-  import { getAccountsByPersonId } from "@/api/api.js";
   import ModalAccountEdit from "@/components/modals/ModalAccountEdit.vue";
   import ButtonItem from "@/components/UI/ButtonItem.vue";
+  import SelectItem from "@/components/UI/SelectItem.vue";
+
+  import { getPersonInfoById } from "@/api/api.js"; 
+  import { getAccountsByPersonId } from "@/api/api.js";
+  import { getTenures } from "@/api/api.js";
+  import { getTenureInfo } from "@/api/api.js";
+  import { createPerson } from "@/api/api.js";
+  import { updatePerson } from "@/api/api.js";
   export default {
     props: {
       activeUserId: {
         type: Number
+      },
+      isNewPerson: {
+        type: Boolean,
       }
     },
     components: {
@@ -110,44 +132,112 @@
       ButtonClose,
       PersonAvatar,
       ModalAccountEdit,
-      ButtonItem
+      ButtonItem,
+      SelectItem
     },
     data() {
       return {
         personInfo: {
           name: "",
           surname: "",
+          patronymic: "",
           img_url: "",
-          tenure: "",
+          tenure: {
+            tenr_title: "",
+            tenr_id: null
+          },
           date_of_birth: ""
         },
         personAccounts: [],
         modalVisible: false,
+        dropdownListVisible: false,
         credentialId: null,
         credentialLogin: "",
+        tenuresList: []
       }
     },
     watch: {
       activeUserId: {
         immediate: true,
         handler(newVal) {
-          getPersonInfoById(newVal)
-          .then(response => {
-            this.personInfo = response;
-          });
+          if (!this.isNewPerson) {
+            getPersonInfoById(newVal)
+            .then(response => {
+              this.personInfo = response;
+              this.dropdownListVisible = false;
+            });
 
-          getAccountsByPersonId(newVal)
-          .then(response => this.personAccounts = response);
+            getAccountsByPersonId(newVal)
+            .then(response => this.personAccounts = response);
+          }
         }
+      },
+      'personInfo.tenure.tenr_title': {
+        immediate: true,
+        handler(newVal, oldVal) {
+          if (newVal !== oldVal) {
+          getTenures(newVal)
+          .then(response => {
+            this.tenuresList = response;
+            this.dropdownListVisible = true;
+          });
+        }}
       }
     },
     methods: {
       processRowClick(object) {
-        console.log(object);
         this.modalVisible = true;
         this.credentialId = object.user_id;
         this.credentialLogin = object.login;
-      }
+      },
+      processOptionClick(tenr_id) {
+        this.personInfo.tenure.tenr_id = tenr_id;
+        getTenureInfo(tenr_id)
+        .then(response => {
+          this.personInfo.tenure.tenr_title = response.tenr_title;
+          this.dropdownListVisible = false;
+        })
+      },
+      processFileUpload(event) {
+        const file = event.target.files[0]; 
+      },
+      savePerson() {
+        // здесь сделать проверку, что такая профессия есть
+        // нужно сделать запрос по айдишнику.
+        if (this.isNewPerson) {
+          createPerson(this.personInfo.name,
+          this.personInfo.surname,
+          this.personInfo.patronymic,
+          this.personInfo.date_of_birth,
+          this.personInfo.img_url,
+          this.personInfo.tenure.tenr_id,
+          )
+          .then(response => {
+              alert('Пользователь успешно создан');
+              location.reload();
+            })
+          .catch(error => alert(error.message));
+        } else {
+          updatePerson(this.personInfo.name,
+          this.personInfo.surname,
+          this.personInfo.patronymic,
+          this.personInfo.date_of_birth,
+          this.personInfo.img_url,
+          this.personInfo.tenure.tenr_id,
+          this.personInfo.id
+          )
+          .then(response => {
+            alert('Данные о пользователе успешно обновлены');
+            location.reload();
+          })
+          .catch(error => alert(error.message));
+        }
+      },
+      // showDropdownList() {
+      //   getTenures(this.personInfo.tenure)
+      //   .then(response => this.tenuresList = response);
+      //   this.dropdownListVisible = true;
+      // }
     }
   }
 </script>

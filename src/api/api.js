@@ -218,6 +218,53 @@ async function updatePerson(name, surname, patronymic, birthdate, imgUrl, tenrId
   }
 }
 
+async function getTenures(tenrTitleLike) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+        // 'Authorization': `Bearer ${accessToken}`
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/get_tenures?tenr_title__like=${tenrTitleLike}`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+async function getTenureInfo(tenrId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+        // 'Authorization': `Bearer ${accessToken}`
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/get_tenure_info?tenure_id=${tenrId}`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
 
 export {
   authenticateUser,
@@ -227,5 +274,7 @@ export {
   getAccountsByPersonId,
   updateUserCredentials,
   createPerson,
-  updatePerson
+  updatePerson,
+  getTenures,
+  getTenureInfo
 }

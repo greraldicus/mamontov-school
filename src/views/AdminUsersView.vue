@@ -4,27 +4,41 @@
     <table-item
     :objectsList="this.usersList"
     :style="'width: 100%;'"
-    @rowClicked="this.modalVisible = true"
+    @rowClicked="processRowClick"
     @setActiveId="setActiveId"
     :activeUserId="this.activeUserId"
     >
     </table-item>
+    <div class="btn-add">
+      <button-item
+      :backgroundColor="'#7AD789'"
+      :fontColor="'white'"
+      :textContent="'Добавить'"
+      @buttonClicked="processButtonClick"
+      >
+      </button-item>
+    </div>
     <modal-user-info
     v-if="modalVisible"
     @closeModalWindow="this.modalVisible = false"
     :activeUserId="this.activeUserId"
-    ></modal-user-info>
+    :isNewPerson="isNewPerson"
+    >
+    </modal-user-info>
+
   </div>
 </template>
 
 <script>
   import TableItem from "@/components/UI/TableItem.vue";
   import ModalUserInfo from "@/components/modals/ModalUserInfo.vue";
+  import ButtonItem from "@/components/UI/ButtonItem.vue";
   import { getPersons }  from "@/api/api.js";
   export default {
     components: {
       TableItem,
       ModalUserInfo,
+      ButtonItem
     },
     data() {
       return {
@@ -50,11 +64,20 @@
         ],
         activeUserId: null,
         modalVisible: false,
+        isNewPerson: false
       }
     },
     methods: {
       setActiveId(object) {
         this.activeUserId = object.id;
+      },
+      processRowClick() {
+        this.isNewPerson = false;
+        this.modalVisible = true;
+      },
+      processButtonClick() {
+        this.isNewPerson = true;
+        this.modalVisible = true;
       }
     },
     mounted() {
@@ -80,9 +103,15 @@
     background-color: white;
     border-radius: 15px;
     padding: 15px;
+    display: flex;
+    flex-direction: column;
   }
   .title {
     font-size: 24px;
     margin-bottom: 15px;
+  }
+  .btn-add {
+    margin-top: 20px;
+    align-self: flex-end;
   }
 </style>
