@@ -1,6 +1,6 @@
 <template>
   <tr
-  @click="this.$emit('rowClicked', object.id)"
+  @click="this.$emit('rowClicked', this.object)"
   >
     <td
     v-for="objProp in object">

@@ -4,10 +4,11 @@
     <table-item
     :objectsList="this.usersList"
     :style="'width: 100%;'"
-    @showModal="this.modalVisible = true"
+    @rowClicked="this.modalVisible = true"
     @setActiveId="setActiveId"
     :activeUserId="this.activeUserId"
-    ></table-item>
+    >
+    </table-item>
     <modal-user-info
     v-if="modalVisible"
     @closeModalWindow="this.modalVisible = false"
@@ -19,11 +20,11 @@
 <script>
   import TableItem from "@/components/UI/TableItem.vue";
   import ModalUserInfo from "@/components/modals/ModalUserInfo.vue";
-  import { getPersons}  from "@/api/api.js";
+  import { getPersons }  from "@/api/api.js";
   export default {
     components: {
       TableItem,
-      ModalUserInfo
+      ModalUserInfo,
     },
     data() {
       return {
@@ -52,8 +53,8 @@
       }
     },
     methods: {
-      setActiveId(id) {
-        this.activeUserId = id;
+      setActiveId(object) {
+        this.activeUserId = object.id;
       }
     },
     mounted() {

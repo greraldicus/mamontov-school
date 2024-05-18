@@ -97,9 +97,65 @@ async function getPersons() {
   }
 }
 
+async function getAccountsByPersonId(id) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/users/get_accounts_by_person_id?person_id=${id}`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+async function updateUserCredentials(login, password, user_id) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'PATCH',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      },
+      body: {
+        [login]: login,
+        [password]: password,
+        [user_id]: user_id
+      }
+    }
+    return fetch(`${baseURL}/${prefixOne}/users/update_user_credentials`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+
 export {
   authenticateUser,
   getPersonInfo,
   getPersonInfoById,
-  getPersons
+  getPersons,
+  getAccountsByPersonId,
+  updateUserCredentials
 }

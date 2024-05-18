@@ -40,7 +40,7 @@
         <div class="user-other-info">
           <div class="birthdate">
             <h2>Дата рождения</h2>
-            <input v-model="this.personInfo.date_of_birth"> <!-- пока нет такого-->
+            <input v-model="this.personInfo.date_of_birth">
           </div> 
           <div class="tenure">
             <h2>Должность</h2>
@@ -53,16 +53,22 @@
         Пользователь
       </h1>
       <div class="accounts-wrapper">
-        <!-- <table-item
-
+        <table-item
+        :objectsList="this.personAccounts"
+        @rowClicked="processRowClick"
         >
-
-        </table-item> -->
+        </table-item>
       </div>
       <button-close
       @buttonClicked="this.$emit('closeModalWindow')"
       > 
       </button-close>
+      <modal-account-edit
+      v-if="modalVisible"
+      @closeModalWindow="this.modalVisible = false"
+      >
+
+      </modal-account-edit>
     </div>
     <div class = "overlay"></div>
   </div>
@@ -72,8 +78,10 @@
   import ButtonClose from "../UI/ButtonClose.vue";
   import PersonAvatar from "../UI/PersonAvatar.vue";
   import { getPersonInfoById } from "@/api/api.js"; 
-  import TableItem from "../UI/TableItem.vue";
-  import { getPersons } from "@/api/api.js";
+  import TableItem from "@/components/UI/TableItem.vue";
+  import { getAccountsByPersonId } from "@/api/api.js";
+  import ModalAccountEdit from "@/components/modals/ModalAccountEdit.vue";
+  import { updateUserCredentials } from "@/api/api.js"; 
   export default {
     props: {
       activeUserId: {
@@ -81,9 +89,10 @@
       }
     },
     components: {
+      TableItem,
       ButtonClose,
       PersonAvatar,
-      TableItem
+      ModalAccountEdit
     },
     data() {
       return {
@@ -93,7 +102,11 @@
           img_url: "",
           tenure: "",
           date_of_birth: ""
-        }
+        },
+        personAccounts: [],
+        modalVisible: false,
+        credentialId: null,
+        credentialLogin: "",
       }
     },
     watch: {
@@ -101,14 +114,19 @@
         immediate: true,
         handler(newVal) {
           getPersonInfoById(newVal)
-          .then(response => {this.personInfo = response;
-            console.log(response);}
-          );
+          .then(response => this.personInfo = response);
+
+          getAccountsByPersonId(newVal)
+          .then(response => this.personAccounts = response);
         }
       }
     },
-    mounted() {
-      getPersons();
+    methods: {
+      processRowClick(object) {
+        this.modalVisible = true;
+        this.credentialId = object.user_id;
+        this.credentialLogin = object.login;
+      }
     }
   }
 </script>
@@ -148,6 +166,7 @@
     box-shadow: 0 10px 15px rgba(0,0,0, .4);
     background-color: white;
     padding: 30px;
+    overflow-y: auto;
   }
   .avatar-wrapper input {
     height: 30px;

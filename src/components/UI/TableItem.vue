@@ -19,11 +19,9 @@
 
 <script>
   import TableRowButton from "./TableRowButton";
-  import ModalUserInfo from "@/components/modals/ModalUserInfo";
   export default {
     components: {
       TableRowButton,
-      ModalUserInfo
     },
     props: {
       objectsList: { 
@@ -50,9 +48,9 @@
       }
     },
     methods: {
-      processRowClick(id) {
-        this.$emit('setActiveId', id);
-        this.$emit('showModal');
+      processRowClick(object) {
+        this.$emit('setActiveId', object);
+        this.$emit('rowClicked');
       }
     }
   }
