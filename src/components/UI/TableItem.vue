@@ -10,7 +10,7 @@
     <table-row-button
     v-for="object in objectsList"
     :object="object"
-    @rowClicked="processRowClick"
+    @rowClicked="processRowClick(object)"
     :class="{ 'active-row': activeUserId === object.id }"
     >
     </table-row-button>

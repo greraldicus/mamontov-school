@@ -11,7 +11,7 @@
           <div class="person-chars">
             <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
             <h2>{{ personInfo.department }}</h2>
-            <h2>{{ personInfo.tenure }}</h2>
+            <h2>{{ personInfo.tenure.tenr_title }}</h2>
           </div>
         </div>
         <booking-info></booking-info>

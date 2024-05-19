@@ -43,7 +43,11 @@
 
           <div class="birthdate">
             <h2>Дата рождения</h2>
-            <input v-model="this.personInfo.date_of_birth">
+            <input
+            type ="date"
+            v-model="this.personInfo.date_of_birth"
+            :style="'width: 120px'"
+            >
           </div> 
           
           <div class="tenure" :style="'position: relative'">
@@ -156,7 +160,6 @@
         credentialId: null,
         credentialLogin: "",
         tenuresList: [],
-        isFirstDataLoad: true,
       }
     },
     watch: {
@@ -178,13 +181,29 @@
                   for (let propName in item) {
                     oldPropNames.push(propName);
                   }
-                  item['Логин'] = item['login'];
-                  item['Роль'] = item['role'];
-                  item['Дата создания'] = item['created_at'];
-                  item['Последняя авторизация'] = item['last_login'];
-                  for (let prop of oldPropNames) {
-                    delete item[String(prop)];
-                  }
+
+                  Object.defineProperty(item, 'Логин', {
+                    value: item['login'],
+                    enumerable: true
+                  });
+                  Object.defineProperty(item, 'Роль', {
+                    value: item['role'],
+                    enumerable: true
+                  });
+                  Object.defineProperty(item, 'Дата создания', {
+                    value: item['created_at'],
+                    enumerable: true
+                  });
+                  Object.defineProperty(item, 'Последняя авторизация', {
+                    value: item['last_login'],
+                    enumerable: true
+                  });
+
+                  oldPropNames.forEach(prop => {
+                    Object.defineProperty(item, prop, {
+                      enumerable: false
+                    });
+                  });
                 });
                 this.personAccounts = response;
             }
@@ -203,6 +222,7 @@
           });
       },
       processRowClick(object) {
+        console.log(object);
         this.modalVisible = true;
         this.credentialId = object.user_id;
         this.credentialLogin = object.login;
@@ -353,4 +373,5 @@
     margin-top: 50px; 
     align-self: flex-end;
   }
+
 </style>

@@ -56,7 +56,10 @@
     methods: {
       editUser() {
         updateUserCredentials(this.localLogin, this.password, this.userId)
-        .then(response => alert('Данные пользователя успешно изменены'))
+        .then(response =>{
+           alert('Данные пользователя успешно изменены');
+           location.reload();
+          })
         .catch(error => console.log(error.message));
       }
     },
