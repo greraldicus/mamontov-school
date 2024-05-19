@@ -28,11 +28,11 @@
         <div class="user-fio-info">
           <div class="surname">
             <h2>Фамилия</h2>
-            <input v-model="this.personInfo.name">
+            <input v-model="this.personInfo.surname">
           </div>
           <div class="name">
             <h2>Имя</h2>
-            <input v-model="this.personInfo.surname">
+            <input v-model="this.personInfo.name">
           </div>
           <div class="patronymic">
             <h2>Отчество</h2>
@@ -48,7 +48,8 @@
           
           <div class="tenure" :style="'position: relative'">
             <h2>Должность</h2>
-            <input v-model="this.personInfo.tenure.tenr_title">
+            <input v-model="this.personInfo.tenure.tenr_title"
+            @input="handleTenureInput">
             <select-item
             :optionsList="tenuresList"
             v-if="dropdownListVisible" 
@@ -84,6 +85,7 @@
         :fontColor="'#000000'"
         :textContent="'Отмена'"
         :style="'margin-left: 10px'"
+        @buttonClicked="this.$emit('closeModalWindow')"
         ></button-item>
 
         <button-close
@@ -190,27 +192,16 @@
           }
         }
       },
-      'personInfo.tenure.tenr_title': {
-        // immediate: true,
-        handler(newVal, oldVal) {
-
-          if (this.isFirstDataLoad) {
-            this.isFirstDataLoad = false;
-            return;
-          }
-
-          if (!this.dropdownListVisible) {
-          getTenures(newVal)
-          .then(response => {
-            // this.tenure.tenr_id = null;
-            this.tenuresList = response;
-            this.dropdownListVisible = true;
-          });
-         }
-        }
-      }
     },
     methods: {
+      handleTenureInput() {
+        getTenures(this.personInfo.tenure.tenr_title)
+          .then(response => {
+            this.personInfo.tenure.tenr_id = null;
+            this.tenuresList = response;
+            this.dropdownListVisible = this.tenuresList.length > 0 ? true : false;
+          });
+      },
       processRowClick(object) {
         this.modalVisible = true;
         this.credentialId = object.user_id;
@@ -228,44 +219,50 @@
         const file = event.target.files[0]; 
       },
       datetimeIsValid() {
-        
+        return true;
       },
       tenureIsValid() {
-        return this.personInfo.tenure.tenr_id === null;
+        return this.personInfo.tenure.tenr_id !== null;
       },
       dataIsValid() {
-        return this.datetimeIsValid() && this.tenureIsValid();
+        return this.tenureIsValid() && this.datetimeIsValid();
       },
       savePerson() {
-        // здесь сделать проверку, что такая профессия есть и что дата введена верно
-        // нужно сделать запрос по айдишнику.
-        if (this.isNewPerson) {
-          createPerson(this.personInfo.name,
-          this.personInfo.surname,
-          this.personInfo.patronymic,
-          this.personInfo.date_of_birth,
-          this.personInfo.img_url,
-          this.personInfo.tenure.tenr_id,
-          )
-          .then(response => {
-              alert('Пользователь успешно создан');
+        if (this.dataIsValid()) {
+          if (this.isNewPerson) {
+            createPerson(this.personInfo.name,
+            this.personInfo.surname,
+            this.personInfo.patronymic,
+            this.personInfo.date_of_birth,
+            this.personInfo.img_url,
+            this.personInfo.tenure.tenr_id,
+            )
+            .then(response => {
+                alert('Пользователь успешно создан');
+                location.reload();
+              })
+            .catch(error => alert(error.message));
+          } else {
+            updatePerson(this.personInfo.name,
+            this.personInfo.surname,
+            this.personInfo.patronymic,
+            this.personInfo.date_of_birth,
+            this.personInfo.img_url,
+            this.personInfo.tenure.tenr_id,
+            this.personInfo.id
+            )
+            .then(response => {
+              alert('Данные о пользователе успешно обновлены');
               location.reload();
             })
-          .catch(error => alert(error.message));
+            .catch(error => alert(error.message));
+          }
         } else {
-          updatePerson(this.personInfo.name,
-          this.personInfo.surname,
-          this.personInfo.patronymic,
-          this.personInfo.date_of_birth,
-          this.personInfo.img_url,
-          this.personInfo.tenure.tenr_id,
-          this.personInfo.id
-          )
-          .then(response => {
-            alert('Данные о пользователе успешно обновлены');
-            location.reload();
-          })
-          .catch(error => alert(error.message));
+          if (!this.tenureIsValid()) {
+            alert('Выбери профессию из списка падла');
+          } else if (!this.datetimeIsValid()) {
+            alert('Время блять правильно выставить не можешь?');
+          }
         }
       },
     }

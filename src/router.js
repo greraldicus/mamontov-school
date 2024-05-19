@@ -10,13 +10,13 @@ import AdminUsersView from "./views/AdminUsersView";
 import { isAuthenticated } from "./utils/authUtils";
 import { isAdmin } from "./utils/authUtils";
 
-import SelectItem from "@/components/UI/SelectItem"; // import test component 
+import DateTime from "@/components/DateTime"; // import test component 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path :'/test',
-      component: SelectItem
+      component: DateTime
     },
     {
       path: '/',
