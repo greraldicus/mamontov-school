@@ -85,6 +85,10 @@
       .then(response => {
         response.forEach(item => {
           item['ФИО'] = item['name'] + " " + item['surname'] + " " + item['patronymic'];
+          item['Должность'] = item['tenure']['tenr_title'];
+          item['Дата рождения'] = item['date_of_birth'];
+          delete item['date_of_birth'];
+          delete item['tenure'];
           delete item['name'];
           delete item['surname'];
           delete item['patronymic'];

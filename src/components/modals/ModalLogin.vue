@@ -36,7 +36,6 @@
   import TextButton from "../UI/TextButton.vue";
   import { authenticateUser } from "../../api/api.js";
   import { getFormattedCookie } from "../../utils/authUtils.js";
-  import { getTokenPayload } from "../../utils/authUtils.js";
   import { isAdmin } from "../../utils/authUtils.js";
   export default {
     components: {

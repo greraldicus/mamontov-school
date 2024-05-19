@@ -2,18 +2,8 @@
   <div class="logout-btn"
   @click="logout"
   >
-
-    <!-- <avatar-button
-    :avatarImgPath="'../../images/baretskiy-avatar.jpg'"
-    >
-    </avatar-button> -->
     <img src="@/images/exit.png">
     Выйти
-    <!-- <div class="person-chars">
-      <h1>{{ personInfo.name }} {{ personInfo.surname }}</h1>
-      <h2>{{ personInfo.department }}</h2>
-      <h2>{{ personInfo.tenure }}</h2>
-    </div> -->
   </div>
 </template>
 

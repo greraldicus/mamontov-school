@@ -168,20 +168,36 @@
             });
 
             getAccountsByPersonId(newVal)
-            .then(response => this.personAccounts = response);
+            .then(response => {
+              if (response) { 
+                response.forEach(item => {
+                  let oldPropNames = [];
+                  for (let propName in item) {
+                    oldPropNames.push(propName);
+                  }
+                  item['Логин'] = item['login'];
+                  item['Роль'] = item['role'];
+                  item['Дата создания'] = item['created_at'];
+                  item['Последняя авторизация'] = item['last_login'];
+                  for (let prop of oldPropNames) {
+                    delete item[String(prop)];
+                  }
+                });
+                this.personAccounts = response;
+            }
+            });
           }
         }
       },
       'personInfo.tenure.tenr_title': {
-        immediate: true,
+        // immediate: true,
         handler(newVal, oldVal) {
-          if (newVal !== oldVal) {
           getTenures(newVal)
           .then(response => {
             this.tenuresList = response;
             this.dropdownListVisible = true;
           });
-        }}
+        }
       }
     },
     methods: {
@@ -201,8 +217,17 @@
       processFileUpload(event) {
         const file = event.target.files[0]; 
       },
+      datetimeIsValid() {
+        
+      },
+      tenureIsValid() {
+        return this.personInfo.tenure.tenr_id === null;
+      },
+      dataIsValid() {
+        return this.datetimeIsValid() && this.tenureIsValid();
+      },
       savePerson() {
-        // здесь сделать проверку, что такая профессия есть
+        // здесь сделать проверку, что такая профессия есть и что дата введена верно
         // нужно сделать запрос по айдишнику.
         if (this.isNewPerson) {
           createPerson(this.personInfo.name,
@@ -233,11 +258,6 @@
           .catch(error => alert(error.message));
         }
       },
-      // showDropdownList() {
-      //   getTenures(this.personInfo.tenure)
-      //   .then(response => this.tenuresList = response);
-      //   this.dropdownListVisible = true;
-      // }
     }
   }
 </script>
