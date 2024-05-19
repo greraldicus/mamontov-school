@@ -153,7 +153,8 @@
         dropdownListVisible: false,
         credentialId: null,
         credentialLogin: "",
-        tenuresList: []
+        tenuresList: [],
+        isFirstDataLoad: true,
       }
     },
     watch: {
@@ -192,11 +193,20 @@
       'personInfo.tenure.tenr_title': {
         // immediate: true,
         handler(newVal, oldVal) {
+
+          if (this.isFirstDataLoad) {
+            this.isFirstDataLoad = false;
+            return;
+          }
+
+          if (!this.dropdownListVisible) {
           getTenures(newVal)
           .then(response => {
+            // this.tenure.tenr_id = null;
             this.tenuresList = response;
             this.dropdownListVisible = true;
           });
+         }
         }
       }
     },
