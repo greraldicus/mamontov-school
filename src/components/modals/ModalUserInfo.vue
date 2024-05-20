@@ -52,8 +52,11 @@
           
           <div class="tenure" :style="'position: relative'">
             <h2>Должность</h2>
-            <input v-model="this.personInfo.tenure.tenr_title"
+            <input 
+            class="tenure-input"
+            v-model="this.personInfo.tenure.tenr_title"
             @input="handleTenureInput">
+
             <select-item
             :optionsList="tenuresList"
             v-if="dropdownListVisible" 
@@ -124,6 +127,7 @@
   import { getTenureInfo } from "@/api/api.js";
   import { createPerson } from "@/api/api.js";
   import { updatePerson } from "@/api/api.js";
+
   export default {
     props: {
       activeUserId: {
@@ -229,6 +233,9 @@
       },
       processOptionClick(tenr_id) {
         this.personInfo.tenure.tenr_id = tenr_id;
+        let inputElement = this.$el.querySelector('.tenure-input');
+        inputElement.style.backgroundColor = 'white';
+
         getTenureInfo(tenr_id)
         .then(response => {
           this.personInfo.tenure.tenr_title = response.tenr_title;
@@ -280,9 +287,9 @@
         } else {
           if (!this.tenureIsValid()) {
             alert('Выбери профессию из списка падла');
-          } else if (!this.datetimeIsValid()) {
-            alert('Время блять правильно выставить не можешь?');
-          }
+            let inputElement = this.$el.querySelector('.tenure-input');
+            inputElement.style.backgroundColor = '#FBDCDC';
+          } 
         }
       },
     }

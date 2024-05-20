@@ -38,21 +38,30 @@
 
 <style scoped>
   .dropdown-list {
-    width: 200px;
-    height: 50px;
+    width: 280px;
+    min-height: 50px;
+    max-height: 100px;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
     position: absolute;
     left: 0;
-    bottom: -10;
+    top: 110%;
     border: 1px solid black;
+    padding: 5px;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    background-color: #FFFFFF;
   }
 
   .dropdown-list li {
     cursor: pointer;
     margin-bottom: 3px;
     font-size: 14px;
+  }  
+  
+  .dropdown-list li:last-child {
+    margin-bottom: 0;
   }
 
   .dropdown-list li:hover {
