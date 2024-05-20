@@ -1,8 +1,8 @@
 <template>
   <ul class="dropdown-list">
     <li v-for="item in optionsList"
-    @click="this.$emit('optionClicked', item.tenr_id)">
-      {{ item.tenr_title }}
+    @click="this.$emit('optionClicked', item.id)">
+      {{ item.title }}
     </li>
   </ul>
 </template>
@@ -17,18 +17,18 @@
     props: {
       optionsList: {
         type: Array,
-        default: [
+        default: [ 
           {
-            tenr_id: 1,
-            tenr_title: "Backend разработчик"
+            id: 1,
+            title: "Backend разработчик"
           },
           {
-            tenr_id: 2,
-            tenr_title: "Frontend разработчик"
+            id: 2,
+            title: "Frontend разработчик"
           },
           {
-            tenr_id: 3,
-            tenr_title: "DevOps инженер"
+            id: 3,
+            title: "DevOps инженер"
           }
         ]
       },

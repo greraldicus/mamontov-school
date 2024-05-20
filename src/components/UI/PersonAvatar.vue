@@ -11,8 +11,7 @@
   export default {
     props: {
       imgPath: {
-        type: String,
-        default: "../../images/baretskiy-avatar.jpg"
+        type: String
       }
     },
     computed: {

@@ -113,6 +113,7 @@
   .title {
     font-size: 24px;
     margin-bottom: 15px;
+    font-weight: 600;
   }
   .btn-add {
     margin-top: 20px;

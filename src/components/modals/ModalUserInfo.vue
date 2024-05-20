@@ -58,12 +58,11 @@
             @input="handleTenureInput">
 
             <select-item
-            :optionsList="tenuresList"
+            :optionsList="this.tenuresToSelectItem"
             v-if="dropdownListVisible" 
             @optionClicked="processOptionClick"
             ></select-item>
           </div>
-
         </div>
       </form>
       <hr class="separator">
@@ -127,7 +126,8 @@
   import { getTenureInfo } from "@/api/api.js";
   import { createPerson } from "@/api/api.js";
   import { updatePerson } from "@/api/api.js";
-
+  import { uploadFile } from "@/api/api.js";
+  import { downloadFile } from "@/api/api.js";
   export default {
     props: {
       activeUserId: {
@@ -243,7 +243,10 @@
         })
       },
       processFileUpload(event) {
-        const file = event.target.files[0]; 
+        const file = event.target.files[0];
+        uploadFile(file)
+        .then(response => this.personInfo.img_url = `https://parma-coworking.ru/api_v1${response.download_url}` )
+
       },
       datetimeIsValid() {
         return true;
@@ -286,12 +289,26 @@
           }
         } else {
           if (!this.tenureIsValid()) {
-            alert('Выбери профессию из списка падла');
+            alert('Выберите профессию из списка');
             let inputElement = this.$el.querySelector('.tenure-input');
             inputElement.style.backgroundColor = '#FBDCDC';
           } 
         }
       },
+    },
+    computed: {
+      tenuresToSelectItem() {
+        let tenuresListCopy = JSON.parse(JSON.stringify(this.tenuresList));
+        for (let tenure of tenuresListCopy) {
+          let id = tenure.tenr_id
+          let title = tenure.tenr_title
+          tenure['id'] = id;
+          tenure['title'] = title;
+          delete tenure.tenr_id;
+          delete tenure.tenr_title;
+        }
+        return tenuresListCopy;
+      }
     }
   }
 </script>

@@ -35,6 +35,9 @@
           case('Бронирование'):
             this.$router.push('/admin/booking');
             break;
+          case('Рабочие места'):
+            this.$router.push('/admin/workplaces');
+            break;
         }
       }
     }
@@ -43,9 +46,12 @@
 
 <style scoped>
   .menu {
-    width: 300px;
+    max-width: 300px;
     height: auto;
     padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;

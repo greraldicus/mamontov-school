@@ -266,6 +266,59 @@ async function getTenureInfo(tenrId) {
   }
 }
 
+async function uploadFile(file) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let formData = new FormData();
+    formData.append('file', file, file.name);
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: formData
+    }
+
+    return fetch(`${baseURL}/${prefixOne}/files/upload`, options) 
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+async function downloadFile(fileName) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      }
+    }
+
+    return fetch(`${baseURL}/${prefixOne}/files/download/${fileName}`, options) 
+    .then(response => {
+      if (response.ok) {
+        return response.blob();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
 export {
   authenticateUser,
   getPersonInfo,
@@ -276,5 +329,7 @@ export {
   createPerson,
   updatePerson,
   getTenures,
-  getTenureInfo
+  getTenureInfo,
+  uploadFile,
+  downloadFile
 }
