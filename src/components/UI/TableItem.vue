@@ -57,17 +57,26 @@
 </script>
 
 <style scoped>
-  table, tr {
-    border: 1px solid black;
+  table {
     border-collapse: collapse;
   }
 
+  thead th:first-child {
+    padding-left: 20px;
+    border-left: none;
+  }
+
+  thead th:last-child {
+    padding-right: 20px;
+    border-right: none;
+  }
+
   th {
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 10px;
     text-align: left;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
-    
+    border-top: none;
+    border-bottom: 1px solid #D9D9D9;
   }
 </style>

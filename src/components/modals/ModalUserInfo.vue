@@ -14,7 +14,8 @@
             <h1 style="font-weight: 500; font-size: 20px; margin-bottom:15px;">Загрузить новую фотографию</h1>
             <input type="file"
             style="margin-bottom: 10px"
-            @change="processFileUpload">
+            @change="processFileUpload"
+            id="file-input">
             <p style="font-weight: 300;">Идеальный размер изображения 141x108 пикселей.<br>
               Максимальный размер файла - 200КБ</p>
           </div>
@@ -22,7 +23,7 @@
       </div>
       <hr class="separator">
       <h1 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">
-        Пользователь
+        Учетные записи
       </h1>
       <form class="user-data-form">
         <div class="user-fio-info">
@@ -46,7 +47,7 @@
             <input
             type ="date"
             v-model="this.personInfo.date_of_birth"
-            :style="'width: 120px'"
+            :style="'width: 140px'"
             >
           </div> 
           
@@ -268,7 +269,6 @@
             this.personInfo.tenure.tenr_id,
             )
             .then(response => {
-                alert('Пользователь успешно создан');
                 location.reload();
               })
             .catch(error => alert(error.message));
@@ -340,7 +340,7 @@
     align-items: left;
     position: relative;
     z-index: 5;
-    min-width: 80%;
+    min-width: 800px;
     height: 80%;
     border-radius: 10px;
     box-shadow: 0 10px 15px rgba(0,0,0, .4);
@@ -394,6 +394,15 @@
     flex-direction: row;
     margin-top: 50px; 
     align-self: flex-end;
+  }
+
+  #file-input {
+    width: 300px;
+    height: 30px;
+    background-color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
   }
 
 </style>

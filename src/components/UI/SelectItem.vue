@@ -48,7 +48,7 @@
     left: 0;
     top: 110%;
     border: 1px solid black;
-    padding: 5px;
+    padding: 4px;
     border: 1px solid #D9D9D9;
     border-radius: 5px;
     background-color: #FFFFFF;
@@ -56,8 +56,10 @@
 
   .dropdown-list li {
     cursor: pointer;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
     font-size: 14px;
+    font-weight: 400;
+    padding: 6px;
   }  
   
   .dropdown-list li:last-child {
@@ -66,6 +68,7 @@
 
   .dropdown-list li:hover {
     background-color: #D9D9D9;
+    border-radius: 2px;
   }
 
   
