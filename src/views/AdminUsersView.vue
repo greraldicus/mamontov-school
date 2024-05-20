@@ -84,7 +84,7 @@
       getPersons()
       .then(response => {
         response.forEach(item => {
-          item['ФИО'] = item['name'] + " " + item['surname'] + " " + item['patronymic'];
+          item['ФИО'] = item['surname'] + " " + item['name'] + " " + item['patronymic'];
           item['Должность'] = item['tenure']['tenr_title'];
           item['Дата рождения'] = item['date_of_birth'];
           delete item['date_of_birth'];

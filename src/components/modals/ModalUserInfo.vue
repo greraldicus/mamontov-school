@@ -282,14 +282,12 @@
             this.personInfo.id
             )
             .then(response => {
-              alert('Данные о пользователе успешно обновлены');
               location.reload();
             })
             .catch(error => alert(error.message));
           }
         } else {
           if (!this.tenureIsValid()) {
-            alert('Выберите профессию из списка');
             let inputElement = this.$el.querySelector('.tenure-input');
             inputElement.style.backgroundColor = '#FBDCDC';
           } 
