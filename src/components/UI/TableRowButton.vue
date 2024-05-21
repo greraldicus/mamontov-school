@@ -6,12 +6,16 @@
     v-for="objProp in object">
       {{ objProp }}
     </td>
+    <delete-button
+    @deleteButtonClicked="this.$emit('deleteObject', object)"
+    ></delete-button>
   </tr>
 </template>
 
 
 
 <script>
+  import DeleteButton from "@/components/UI/DeleteButton.vue";
   export default {
     props: {
       object: {
@@ -22,6 +26,9 @@
       return {
         
       }
+    },
+    components: {
+      DeleteButton
     }
   }
 </script>
@@ -51,6 +58,7 @@
 
   tr {
     cursor: pointer;
+    position: relative;
   }
 
   .active-row {

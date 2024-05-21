@@ -12,6 +12,7 @@
     :object="object"
     @rowClicked="processRowClick(object)"
     :class="{ 'active-row': activeUserId === object.id }"
+    @deleteObject="processDeleteObject"
     >
     </table-row-button>
   </table>
@@ -51,6 +52,9 @@
       processRowClick(object) {
         this.$emit('setActiveId', object);
         this.$emit('rowClicked', object);
+      },
+      processDeleteObject(object) {
+        this.$emit('deleteObject', object);
       }
     }
   }

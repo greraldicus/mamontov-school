@@ -8,7 +8,7 @@
           <person-avatar
           :imgPath="this.personInfo.img_url"
           :style="'margin-right: 15px'"
-          ></person-avatar>
+          ></person-avatar> 
           <div class="avatar-description"
           style="display: flex; flex-direction: column; justify-content: flex-start">
             <h1 style="font-weight: 500; font-size: 20px; margin-bottom:15px;">Загрузить новую фотографию</h1>
@@ -75,6 +75,7 @@
         :objectsList="this.personAccounts"
         :activeUserId="this.credentialId"
         @rowClicked="processRowClick"
+        @deleteObject="processDeleteUser"
         >
         </table-item>
       </div>
@@ -129,6 +130,8 @@
   import { updatePerson } from "@/api/api.js";
   import { uploadFile } from "@/api/api.js";
   import { downloadFile } from "@/api/api.js";
+  import { deleteUser } from "@/api/api.js";
+
   export default {
     props: {
       activeUserId: {
@@ -180,39 +183,32 @@
 
             getAccountsByPersonId(newVal)
             .then(response => {
-              if (response) { 
-                response.forEach(item => {
-                  let oldPropNames = [];
-                  for (let propName in item) {
-                    oldPropNames.push(propName);
-                  }
+              if (response) {
+                this.personAccounts = response.map(item => {
+                  const { user_id, ...rest} = item;
+                  const newItem = {
+                    id: user_id,
+                    'Логин': item.login,
+                    'Роль': item.role,
+                    'Дата создания': item.created_at,
+                    'Последняя авторизация': item.last_login
+                  };
 
-                  Object.defineProperty(item, 'Логин', {
-                    value: item['login'],
-                    enumerable: true
-                  });
-                  Object.defineProperty(item, 'Роль', {
-                    value: item['role'],
-                    enumerable: true
-                  });
-                  Object.defineProperty(item, 'Дата создания', {
-                    value: item['created_at'],
-                    enumerable: true
-                  });
-                  Object.defineProperty(item, 'Последняя авторизация', {
-                    value: item['last_login'],
-                    enumerable: true
-                  });
-
-                  oldPropNames.forEach(prop => {
-                    Object.defineProperty(item, prop, {
-                      enumerable: false
+                  for (let prop in rest) {
+                    Object.defineProperty(newItem, prop, {
+                      value: rest[prop],
+                      enumerable: false,
                     });
+                  }
+                  Object.defineProperty(newItem, 'id', {
+                      value: newItem['id'],
+                      enumerable: false,
                   });
-                });
-                this.personAccounts = response;
-            }
-            });
+                  
+                  return newItem;
+                })
+              }
+            })
           }
         }
       },
@@ -246,8 +242,11 @@
       processFileUpload(event) {
         const file = event.target.files[0];
         uploadFile(file)
-        .then(response => this.personInfo.img_url = `https://parma-coworking.ru/api_v1${response.download_url}` )
-
+        .then(response => this.personInfo.img_url = `https://parma-coworking.ru/api_v1${response.download_url}`);
+      },
+      processDeleteUser(object) {  
+        deleteUser(object.id)
+        .then(response => location.reload());
       },
       datetimeIsValid() {
         return true;
@@ -257,6 +256,9 @@
       },
       dataIsValid() {
         return this.tenureIsValid() && this.datetimeIsValid();
+      },
+      deleteObject(object) {
+
       },
       savePerson() {
         if (this.dataIsValid()) {

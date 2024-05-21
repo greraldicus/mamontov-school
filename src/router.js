@@ -12,13 +12,13 @@ import AdminWorkplacesView from "./views/AdminWorkplacesView";
 import { isAuthenticated } from "./utils/authUtils";
 import { isAdmin } from "./utils/authUtils";
 
-import DateTime from "@/components/DateTime"; // import test component 
+import DeleteButton from "@/components/UI/DeleteButton"; // import test component 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path :'/test',
-      component: DateTime
+      component: DeleteButton
     },
     {
       path: '/',

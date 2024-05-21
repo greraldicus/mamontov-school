@@ -6,6 +6,7 @@
     :style="'width: 100%;'"
     @rowClicked="processRowClick"
     @setActiveId="setActiveId"
+    @deleteObject="processDeletePerson"
     :activeUserId="this.activeUserId"
     >
     </table-item>
@@ -33,7 +34,10 @@
   import TableItem from "@/components/UI/TableItem.vue";
   import ModalUserInfo from "@/components/modals/ModalUserInfo.vue";
   import ButtonItem from "@/components/UI/ButtonItem.vue";
+
   import { getPersons }  from "@/api/api.js";
+  import { deletePerson } from "@/api/api.js";
+
   export default {
     components: {
       TableItem,
@@ -78,6 +82,10 @@
       processButtonClick() {
         this.isNewPerson = true;
         this.modalVisible = true;
+      },
+      processDeletePerson(object) {  
+        deletePerson(object.id)
+        .then(response => location.reload());
       }
     },
     mounted() {

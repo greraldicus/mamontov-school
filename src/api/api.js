@@ -121,6 +121,30 @@ async function getAccountsByPersonId(id) {
   }
 }
 
+async function deleteUser(userId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'DELETE',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/users/delete_user?user_id=${userId}`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
 async function updateUserCredentials(login_, password_, user_id_) {
   if (!isAuthenticated()) {
     router.push('/auth');
@@ -208,6 +232,30 @@ async function updatePerson(name, surname, patronymic, birthdate, imgUrl, tenrId
       })
     }
     return fetch(`${baseURL}/${prefixOne}/update_person`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+async function deletePerson(personId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'DELETE',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/delete_person?person_id=${personId}`, options)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -319,6 +367,72 @@ async function downloadFile(fileName) {
   }
 }
 
+async function getWorkplaces() {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let options = {
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/get_workplaces`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+async function getWorkplaceInfo(workplaceId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let options = {
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/get_workplace_info?wp_id=${workplaceId}`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+async function getAttributesByWorkplaceId(workplaceId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let options = {
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/get_attributes_by_workplace_id?wp_id=${workplaceId}`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
 export {
   authenticateUser,
   getPersonInfo,
@@ -326,10 +440,15 @@ export {
   getPersons,
   getAccountsByPersonId,
   updateUserCredentials,
+  deleteUser,
   createPerson,
   updatePerson,
+  deletePerson,
   getTenures,
   getTenureInfo,
   uploadFile,
-  downloadFile
+  downloadFile,
+  getWorkplaces,
+  getWorkplaceInfo,
+  getAttributesByWorkplaceId
 }
