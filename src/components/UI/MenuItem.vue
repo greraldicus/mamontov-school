@@ -38,6 +38,9 @@
           case('Рабочие места'):
             this.$router.push('/admin/workplaces');
             break;
+          case('Карта'):
+            this.$router.push('/admin/map');
+            break;
         }
       }
     }

@@ -3,7 +3,7 @@
     ></header-bar>
     <div class="admin-panel">
       <menu-item
-      :contentsList="contentsList"
+      :contentsList="this.contentsList"
       ></menu-item>
       <router-view></router-view>
     </div>
@@ -22,7 +22,8 @@
         contentsList: [
           "Пользователи",
           "Бронирование",
-          "Рабочие места"
+          "Рабочие места",
+          "Карта"
         ]
       }
     }
@@ -37,8 +38,10 @@
     padding-top: 30px;
     padding-bottom: 30px;
     background-color: #D9D9D9;
+    /* background-repeat: repeat;
+    background-size: auto; */
     padding-left: 100px;
     padding-right: 100px;
-    height: 100vh;
+    height: 100vh;  
   }
 </style>
