@@ -113,8 +113,8 @@
       v-if="modalVisible"
       @closeModalWindow="this.modalVisible = false"
       :login="credentialLogin"
-      :userId="credentialId"
-      :isNewUser="isNewUser"
+      :userId="this.credentialId"
+      :isNewUser="this.isNewUser"
       :personId="this.activeUserId"
       >
       </modal-account-edit>
@@ -233,10 +233,11 @@
           });
       },
       processRowClick(object) {
-        console.log(object);
+        
         this.modalVisible = true;
-        this.credentialId = object.user_id;
+        this.credentialId = object.id;
         this.credentialLogin = object.login;
+        this.isNewUser = false;
       },
       processOptionClick(tenr_id) {
         this.personInfo.tenure.tenr_id = tenr_id;

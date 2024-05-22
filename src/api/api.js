@@ -152,7 +152,7 @@ async function registerUser(login_, password_, personId) {
   else {
     let accessToken = getCookie('access-token');
     let options = {
-      method: 'PATCH',
+      method: 'POST',
       headers: {
         'accept': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
@@ -165,7 +165,7 @@ async function registerUser(login_, password_, personId) {
         password: password_,
       })
     }
-    return fetch(`${baseURL}/${prefixOne}/users/register`, options)
+    return fetch(`${baseURL}/${prefixOne}/auth/register`, options)
     .then(response => {
       if (response.ok) {
         return response.json();

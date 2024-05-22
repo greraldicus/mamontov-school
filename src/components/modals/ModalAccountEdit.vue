@@ -18,8 +18,7 @@
         <div class="password">
           <h2>Пароль</h2>
           <input
-          class="p"
-          type="password-input"
+          type="password"
           v-model="password"
           placeholder="Пароль"
           >
@@ -32,7 +31,6 @@
           :style="'border: 1px solid #D9D9D9; border-radius: 5px'"
           @click="editUser"
           >
-          Сохранить
           </button-item>
           <button-item
           :backgroundColor="'white'"
@@ -41,7 +39,6 @@
           :style="'border: 1px solid #D9D9D9; border-radius: 5px'"
           @click="this.$emit('closeModalWindow')"
           >
-          Сохранить
           </button-item>
         </div>
       </form>
@@ -78,7 +75,7 @@
       },
       personId: {
         type: Number
-      }
+      },
     },
     data() {
       return {
@@ -88,7 +85,8 @@
     },
     methods: {
       editUser() {
-        if (!isNewUser)
+        console.log(this.userId);
+        if (!this.isNewUser)
           updateUserCredentials(this.localLogin, this.password, this.userId)
           .then(response =>{
             alert('Данные пользователя успешно изменены');
@@ -97,7 +95,7 @@
           .catch(error => console.log(error.message));
         else {
           registerUser(this.localLogin, this.password, this.personId)
-          .then(response =>{
+          .then(response => {
             alert('Пользователь успешно зарегистрирован');
             location.reload();
             })
@@ -105,6 +103,11 @@
         }
       }
     },
+    mounted() {
+      if (this.isNewUser) {
+        this.localLogin = '';
+      }
+    }
   }
 </script>
 
