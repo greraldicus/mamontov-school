@@ -1,10 +1,10 @@
 <template>
-    <div 
-    class="button"
-    @click="this.$emit('buttonClicked', content)"
-    >
-      {{ content }}
-    </div>
+  <div 
+  class="button"
+  @click="this.$emit('buttonClicked', content)"
+  >
+    {{ content }}
+  </div>
 </template>
 
 <script>

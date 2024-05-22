@@ -31,7 +31,6 @@
     width: 130px;
     height: 30px;
     font-size: 16px;
-    z-index: 1000;
     border: none;
     border-radius: 5px;
     cursor: pointer;

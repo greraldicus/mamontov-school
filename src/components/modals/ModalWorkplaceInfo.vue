@@ -96,6 +96,9 @@
     props: {
       activeUserId: {
         type: Number
+      },
+      isNewWorkplace: {
+        type: Boolean
       }
     },
     components: {
@@ -134,23 +137,25 @@
       activeUserId: {
         immediate: true,
         handler(newVal) {
-          getWorkplaceInfo(newVal)
-          .then(response => {
-            this.workplaceInfo.id = response.id;
-            this.workplaceInfo.address = response.address;
-            this.workplaceInfo.imgUrl = response.img_url;
-            this.workplaceInfo.type = {};
-            this.workplaceInfo.type.title = response.type.wptype_title;
-            this.workplaceInfo.type.id = response.type.wptype_id;
-            this.workplaceInfo.attributes = response.attributes.map(({ attr_id, attr_title, attr_value, attr_icon_url }) => {
-              return {
-                id: attr_id,
-                title: attr_title,
-                value: attr_value,
-                iconUrl: attr_icon_url
-              };
+          if (!this.isNewWorkplace) {
+            getWorkplaceInfo(newVal)
+            .then(response => {
+              this.workplaceInfo.id = response.id;
+              this.workplaceInfo.address = response.address;
+              this.workplaceInfo.imgUrl = response.img_url;
+              this.workplaceInfo.type = {};
+              this.workplaceInfo.type.title = response.type.wptype_title;
+              this.workplaceInfo.type.id = response.type.wptype_id;
+              this.workplaceInfo.attributes = response.attributes.map(({ attr_id, attr_title, attr_value, attr_icon_url }) => {
+                return {
+                  id: attr_id,
+                  title: attr_title,
+                  value: attr_value,
+                  iconUrl: attr_icon_url
+                };
+              });
             });
-          });
+        }
         }
       }
     },
@@ -164,7 +169,6 @@
               enumerable: false
             });
           }
-
           Object.defineProperty(newItem, 'Иконка', {
             value: item['iconUrl'],
             enumerable: true

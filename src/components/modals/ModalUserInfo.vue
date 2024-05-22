@@ -233,7 +233,6 @@
           });
       },
       processRowClick(object) {
-        
         this.modalVisible = true;
         this.credentialId = object.id;
         this.credentialLogin = object.login;
@@ -358,7 +357,7 @@
     position: relative;
     z-index: 5;
     max-height: 80%;
-    min-width: 800px;
+    min-width: 1000px;
     border-radius: 10px;
     box-shadow: 0 10px 15px rgba(0,0,0, .4);
     background-color: white;
@@ -436,7 +435,7 @@
     border: 1px solid #D9D9D9;
     border-radius: 5px;
     margin-right: 13px;
-
+    cursor: pointer;
     }
     
 </style>

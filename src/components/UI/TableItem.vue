@@ -12,7 +12,7 @@
     :object="object"
     @rowClicked="processRowClick(object)"
     :class="{ 'active-row': activeUserId === object.id }"
-    @deleteObject="processDeleteObject"
+    @deleteObject="processDeleteObject"> <!-- ТУТ ПЕРЕДАЕТСЯ OBJECT-->
     >
     </table-row-button>
   </table>

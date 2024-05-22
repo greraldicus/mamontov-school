@@ -23,7 +23,7 @@
     width: 20px;
     height: 20px;
     position: absolute;
-    right: 10px;
+    right: 10%;
     bottom: 10px;
   }
 </style>

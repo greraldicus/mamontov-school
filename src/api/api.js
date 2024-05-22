@@ -464,6 +464,31 @@ async function getAttributesByWorkplaceId(workplaceId) {
   }
 }
 
+async function deleteWorkplace(workplaceId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'DELETE',
+      headers: {
+        'accept': 'application/json',
+        // 'Authorization': `Bearer ${accessToken}`
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/delete_workplace?workplace_id=${workplaceId}`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+
 export {
   authenticateUser,
   getPersonInfo,
@@ -482,5 +507,6 @@ export {
   downloadFile,
   getWorkplaces,
   getWorkplaceInfo,
-  getAttributesByWorkplaceId
+  getAttributesByWorkplaceId,
+  deleteWorkplace
 }

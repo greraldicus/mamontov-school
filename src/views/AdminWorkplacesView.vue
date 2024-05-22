@@ -4,13 +4,26 @@
     <table-item
     :objectsList="this.workplacesList"
     :activeUserId="this.activeUserId"
-    @rowClicked="this.modalVisible = true"
+    @rowClicked="processRowClick"
     @setActiveId="setActiveId"
+    @deleteObject="processDeleteWorkplace"
     >
     </table-item>
-
+    
+    <div class="btn-add">
+      <button-item
+      :backgroundColor="'#7AD789'"
+      :fontColor="'white'"
+      :textContent="'Добавить'"
+      @buttonClicked="processAddBtnClick"
+      :style="'position: absolute; right: 30px; bottom: 30px;'"
+      >
+      </button-item>
+    </div>
+    
     <modal-workplace-info
     v-if="this.modalVisible"
+    :isNewWorkplace="this.isNewWorkplace"
     :activeUserId="this.activeUserId"
     @closeModalWindow="this.modalVisible = false"
     >
@@ -22,24 +35,40 @@
 <script>
   import TableItem from "@/components/UI/TableItem";
   import ModalWorkplaceInfo from "@/components/modals/ModalWorkplaceInfo";
+  import ButtonItem from "@/components/UI/ButtonItem";
 
   import { getWorkplaces } from "@/api/api.js";
+  import { deleteWorkplace } from "@/api/api.js";
 
   export default {
     data() {
       return {
         workplacesList: [],
         activeUserId: null,
-        modalVisible: false
+        modalVisible: false,
+        isNewWorkplace: true,
       }
     },
     components: {
       TableItem,
-      ModalWorkplaceInfo
+      ModalWorkplaceInfo,
+      ButtonItem
     },
     methods: {
       setActiveId(object) {
         this.activeUserId = object.id;
+      },
+      processDeleteWorkplace(object) {
+        deleteWorkplace(object.id)
+        .then(response => location.reload());
+      },
+      processAddBtnClick() {
+        this.isNewWorkplace = true;
+        this.modalVisible = true;
+      },
+      processRowClick() {
+        this.isNewWorkplace = false;
+        this.modalVisible = true;
       }
     },
     mounted() {
@@ -71,10 +100,15 @@
     padding: 15px;
     display: flex;
     flex-direction: column;
+    position: relative;
   }
   .title {
     font-size: 24px;
     margin-bottom: 15px;
     font-weight: 600;
+  }
+  .btn-add {
+    margin-top: 20px;
+    align-self: flex-end;
   }
 </style>
