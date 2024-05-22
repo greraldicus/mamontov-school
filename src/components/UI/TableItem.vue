@@ -78,7 +78,7 @@
   th {
     padding: 10px;
     text-align: left;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 20px;
     border-top: none;
     border-bottom: 1px solid #D9D9D9;

@@ -71,11 +71,18 @@
         Пользователь
       </h1>
       <div class="accounts-wrapper">
+        <ion-icon
+        class="create-user-icon"
+        name="person-add-outline"
+        @click="processCreateUser"
+        >
+        </ion-icon>
         <table-item
         :objectsList="this.personAccounts"
         :activeUserId="this.credentialId"
         @rowClicked="processRowClick"
         @deleteObject="processDeleteUser"
+        :style="'width: 100%'"
         >
         </table-item>
       </div>
@@ -107,6 +114,8 @@
       @closeModalWindow="this.modalVisible = false"
       :login="credentialLogin"
       :userId="credentialId"
+      :isNewUser="isNewUser"
+      :personId="this.activeUserId"
       >
       </modal-account-edit>
     </div>
@@ -164,6 +173,7 @@
         },
         personAccounts: [],
         modalVisible: false,
+        isNewUser: null,
         dropdownListVisible: false,
         credentialId: null,
         credentialLogin: "",
@@ -243,6 +253,10 @@
         const file = event.target.files[0];
         uploadFile(file)
         .then(response => this.personInfo.img_url = `https://parma-coworking.ru/api_v1${response.download_url}`);
+      },
+      processCreateUser() {
+        this.modalVisible = true;
+        this.isNewUser = true;
       },
       processDeleteUser(object) {  
         deleteUser(object.id)
@@ -342,8 +356,8 @@
     align-items: left;
     position: relative;
     z-index: 5;
+    max-height: 80%;
     min-width: 800px;
-    height: 80%;
     border-radius: 10px;
     box-shadow: 0 10px 15px rgba(0,0,0, .4);
     background-color: white;
@@ -397,14 +411,31 @@
     margin-top: 50px; 
     align-self: flex-end;
   }
+  
+  .accounts-wrapper {
+    position: relative;
+  }
 
-  #file-input {
-    width: 300px;
+  .create-user-icon {
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  #file-input::-webkit-file-upload-button {
+    width: 130px;
     height: 30px;
     background-color: white;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-size: 14px;
-  }
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    margin-right: 13px;
 
+    }
+    
 </style>

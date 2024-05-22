@@ -4,7 +4,7 @@
     v-for="contentItem in contentsList"
     :content="contentItem"
     @buttonClicked="processClick"
-    :style="'color: #000000; font-size: 20px; margin-bottom: 7px;'"
+    :style="'color: #000000; font-size: 20px; margin-bottom: 7px; font-weight: 400'"
     >
     </text-button>
   </div>
@@ -46,7 +46,7 @@
 
 <style scoped>
   .menu {
-    max-width: 300px;
+    width: 230px;
     height: auto;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -54,7 +54,7 @@
     padding-right: 25px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     border-radius: 10px;
     background-color:#FFFFFF;
     margin-right: 30px;

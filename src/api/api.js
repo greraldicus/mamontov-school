@@ -145,6 +145,37 @@ async function deleteUser(userId) {
   }
 }
 
+async function registerUser(login_, password_, personId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'PATCH',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        person_id: personId,
+        role_id: 2,
+        login: login_,
+        password: password_,
+      })
+    }
+    return fetch(`${baseURL}/${prefixOne}/users/register`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
 async function updateUserCredentials(login_, password_, user_id_) {
   if (!isAuthenticated()) {
     router.push('/auth');
@@ -440,6 +471,7 @@ export {
   getPersons,
   getAccountsByPersonId,
   updateUserCredentials,
+  registerUser,
   deleteUser,
   createPerson,
   updatePerson,

@@ -112,6 +112,7 @@
 <style scoped>
   .admin-users {
     width: 100%;
+    overflow-x: hidden;
     background-color: white;
     border-radius: 15px;
     padding: 15px;

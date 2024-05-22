@@ -20,7 +20,9 @@
         <text-button
         v-for="item in navItems"
         :content="item.content"
-        :style="{ color: '#0F2232', 'margin-right': '45px', 'margin-bottom': '10px' }"
+        :style="{ color: '#0F2232',
+        'margin-right': '45px',
+        'margin-bottom': '10px' }"
         :class="{ 'last-button': item.content === 'Настройки'}"
         @buttonClicked="setRoute"
         >
