@@ -22,8 +22,7 @@
     cursor: pointer;
     width: 20px;
     height: 20px;
-    position: absolute;
-    right: 10%;
-    bottom: 10px;
+    right: 10px;
+    bottom: 30%;
   }
 </style>

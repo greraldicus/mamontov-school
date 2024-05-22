@@ -6,9 +6,11 @@
     v-for="objProp in object">
       {{ objProp }}
     </td>
-    <delete-button
-    @deleteButtonClicked="this.$emit('deleteObject', object)"
-    ></delete-button>
+    <td>
+      <delete-button
+      @deleteButtonClicked="this.$emit('deleteObject', object)"
+      ></delete-button>
+    </td>
   </tr>
 </template>
 
@@ -63,6 +65,5 @@
 
   .active-row {
     background-color: #ECECEC;
-
   }
 </style>

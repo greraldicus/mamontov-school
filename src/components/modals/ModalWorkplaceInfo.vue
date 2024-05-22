@@ -7,7 +7,7 @@
       <div class="photo-wrapper">
         <img
         class="workplace-photo" 
-        src="@/images/baretskiy-avatar.jpg"
+        :src="this.workplaceInfo.imgUrl"
         >
         <div class="photo-info">
           <p 
@@ -67,14 +67,36 @@
 
       <hr class="separator">
 
-      <table-item
-      :objectsList="getWorkplaceAttributesToTable"
-      @setActiveId="setActiveId"
-      @rowClicked="this.modalVisible = true"
-      :activeUserId="activeAttributeId"
-      >
-      </table-item>
+      <div class="attributes-wrapper">
+        <table-item
+        :objectsList="getWorkplaceAttributesToTable"
+        @setActiveId="setActiveId"
+        @rowClicked="this.modalVisible = true"
+        @deleteObject="this.processDeleteAttribute"
+        :activeUserId="activeAttributeId"
+        >
+        </table-item>
+      </div>
 
+      <div class="buttons-wrapper">
+        <button-item
+        :backgroundColor="'#7AD789'"
+        :fontColor="'white'"
+        :textContent="'Добавить'"
+        @buttonClicked="saveWorkplace"
+        >
+        </button-item>
+        
+        <button-item
+        :backgroundColor="'white'"
+        :fontColor="'black'"
+        :textContent="'Отмена'"
+        :style="'margin-left: 10px;'"
+        @buttonClicked="this.$emit('closeModalWindow')"
+        >
+
+        </button-item>
+      </div>
       <button-close
       @buttonClicked="this.$emit('closeModalWindow')"
       >
@@ -88,13 +110,18 @@
 <script>
   import ButtonClose from "@/components/UI/ButtonClose";
   import TableItem from "@/components/UI/TableItem";
+  import ButtonItem from "@/components/UI/ButtonItem";
 
   import { getWorkplaceInfo } from "@/api/api.js";
   import { getAttributesByWorkplaceId } from "@/api/api.js";
+  import { deleteWorkplaceAttribute } from "@/api/api.js";
+  import { uploadFile } from "@/api/api.js";
+  import { createWorkplace } from "@/api/api.js";
+
 
   export default {
     props: {
-      activeUserId: {
+      activeWorkplaceId: {
         type: Number
       },
       isNewWorkplace: {
@@ -103,12 +130,37 @@
     },
     components: {
       ButtonClose,
-      TableItem
+      TableItem,
+      ButtonItem
     },
     methods: {
       setActiveId(object) {
         this.activeAttributeId = object.id;
-      }
+      },
+      saveWorkplace() {
+        if (!this.isNewWorkplace) {
+
+        } else {
+          createWorkplace(this.workplaceInfo.address,
+          this.workplaceInfo.imgUrl,
+          this.workplaceInfo.type.id,
+          this.workplaceInfo.officeId,
+          this.getAttributesId
+          )
+          .then(response => location.reload())
+          .catch(error_code => alert(error_code));
+        }
+      },
+      processFileUpload(event) {
+        const file = event.target.files[0];
+        uploadFile(file)
+        .then(response => this.workplaceInfo.imgUrl = `https://parma-coworking.ru/api_v1${response.download_url}`);
+      },
+      processDeleteAttribute(object) {
+        deleteWorkplaceAttribute(object.id)
+        .then(response => location.reload())
+        .catch(errorCode => alert(errorCode));
+      },
     },
     data() {
       return {
@@ -116,6 +168,7 @@
           id: null,
           address: "",
           imgUrl: "",
+          officeId: null,
           type: {
             title: "",
             id: null
@@ -134,21 +187,23 @@
       }
     },
     watch: {
-      activeUserId: {
+      activeWorkplaceId: {
         immediate: true,
         handler(newVal) {
           if (!this.isNewWorkplace) {
             getWorkplaceInfo(newVal)
             .then(response => {
+              console.log(response.office.of_id);
               this.workplaceInfo.id = response.id;
               this.workplaceInfo.address = response.address;
               this.workplaceInfo.imgUrl = response.img_url;
               this.workplaceInfo.type = {};
+              this.workplaceInfo.officeId = response.office.of_id;
               this.workplaceInfo.type.title = response.type.wptype_title;
               this.workplaceInfo.type.id = response.type.wptype_id;
-              this.workplaceInfo.attributes = response.attributes.map(({ attr_id, attr_title, attr_value, attr_icon_url }) => {
+              this.workplaceInfo.attributes = response.attributes.map(({ wptypeattr_wp_id, attr_title, attr_value, attr_icon_url }) => {
                 return {
-                  id: attr_id,
+                  id: wptypeattr_wp_id,
                   title: attr_title,
                   value: attr_value,
                   iconUrl: attr_icon_url
@@ -162,6 +217,7 @@
     computed: {
       getWorkplaceAttributesToTable() {
         let abobix = this.workplaceInfo.attributes.map(item => {
+          // console.log(item);
           let newItem = Object.create(item);
           for (let prop in newItem) {
             Object.defineProperty(newItem, prop, {
@@ -184,6 +240,10 @@
           return newItem
         });
         return abobix;
+      },
+      getAttributesId() {
+        let attributesId = this.workplaceInfo.attributes.map(item => item.id);
+        return attributesId;
       }
     }
   }
@@ -270,6 +330,12 @@
     width: 100%;
   }
   
+  .buttons-wrapper {
+    margin-top: 50px;
+    display: flex;
+    align-self: flex-end;
+  }
+
   #workplace-form {
     display: flex;
     flex-direction: column;

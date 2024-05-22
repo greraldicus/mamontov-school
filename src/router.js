@@ -8,6 +8,8 @@ import AdminPanel from './components/AdminPanel.vue';
 import AdminBookingView from "./views/AdminBookingView";
 import AdminUsersView from "./views/AdminUsersView";
 import AdminWorkplacesView from "./views/AdminWorkplacesView";
+import AdminMapView from "./views/AdminMapView";
+
 
 import { isAuthenticated } from "./utils/authUtils";
 import { isAdmin } from "./utils/authUtils";
@@ -69,6 +71,10 @@ const router = createRouter({
         {
           path: 'workplaces',
           component: AdminWorkplacesView
+        },
+        {
+          path: 'map',
+          component: AdminMapView
         }
       ]
     }

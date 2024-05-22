@@ -1,14 +1,17 @@
 <template>
   <div class="admin-workplaces">
     <div class="title">Рабочие места</div>
-    <table-item
-    :objectsList="this.workplacesList"
-    :activeUserId="this.activeUserId"
-    @rowClicked="processRowClick"
-    @setActiveId="setActiveId"
-    @deleteObject="processDeleteWorkplace"
-    >
-    </table-item>
+
+    <div class="workplaces-table">
+      <table-item
+      :objectsList="this.workplacesList"
+      :activeUserId="this.activeWorkplaceId"
+      @rowClicked="processRowClick"
+      @setActiveId="setActiveId"
+      @deleteObject="processDeleteWorkplace"
+      >
+      </table-item>
+    </div>
     
     <div class="btn-add">
       <button-item
@@ -16,7 +19,6 @@
       :fontColor="'white'"
       :textContent="'Добавить'"
       @buttonClicked="processAddBtnClick"
-      :style="'position: absolute; right: 30px; bottom: 30px;'"
       >
       </button-item>
     </div>
@@ -24,7 +26,7 @@
     <modal-workplace-info
     v-if="this.modalVisible"
     :isNewWorkplace="this.isNewWorkplace"
-    :activeUserId="this.activeUserId"
+    :activeWorkplaceId="this.activeWorkplaceId"
     @closeModalWindow="this.modalVisible = false"
     >
     </modal-workplace-info>
@@ -44,7 +46,7 @@
     data() {
       return {
         workplacesList: [],
-        activeUserId: null,
+        activeWorkplaceId: null,
         modalVisible: false,
         isNewWorkplace: true,
       }
@@ -56,7 +58,7 @@
     },
     methods: {
       setActiveId(object) {
-        this.activeUserId = object.id;
+        this.activeWorkplaceId = object.id;
       },
       processDeleteWorkplace(object) {
         deleteWorkplace(object.id)
@@ -78,11 +80,14 @@
           let tmp_address = item.address;
           let tmp_type = item.type.wptype_title;
           let tmp_id = item.wp_id;
+          let tmp_office = item.office.of_name;
           delete item.address;
           delete item.type;
-          delete item.wp_id
+          delete item.wp_id;
+          delete item.office;
           item['id'] = tmp_id;
-          item['Адрес'] = tmp_address;
+          item['Офис'] = tmp_office;
+          item['Адрес места'] = tmp_address;
           item['Тип'] = tmp_type;
         })
         this.workplacesList = response;
@@ -108,7 +113,7 @@
     font-weight: 600;
   }
   .btn-add {
-    margin-top: 20px;
     align-self: flex-end;
+    margin-top: 20px;
   }
 </style>

@@ -488,6 +488,62 @@ async function deleteWorkplace(workplaceId) {
   }
 }
 
+async function deleteWorkplaceAttribute(workplaceAttrId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let accessToken = getCookie('access-token');
+    let options = {
+      method: 'DELETE',
+      headers: {
+        'accept': 'application/json',
+        // 'Authorization': `Bearer ${accessToken}`
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/delete_workplace_attribute?wptypeattr_wp_id=${workplaceAttrId}`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
+async function createWorkplace(wpAddress, wpImgUrl, wpTypeId, wpOfficeId, wpAttributesId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    // let accessToken = getCookie('access-token');
+    let options = {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        // 'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        wp_address: wpAddress,
+        wp_img_url: wpImgUrl,
+        wp_wptype_id: wpTypeId,
+        wp_of_id: wpOfficeId,
+        wp_attributes_id: wpAttributesId
+      })
+    }
+    return fetch(`${baseURL}/${prefixOne}/create_workplace`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
 
 export {
   authenticateUser,
@@ -508,5 +564,7 @@ export {
   getWorkplaces,
   getWorkplaceInfo,
   getAttributesByWorkplaceId,
-  deleteWorkplace
+  deleteWorkplace,
+  createWorkplace,
+  deleteWorkplaceAttribute
 }
