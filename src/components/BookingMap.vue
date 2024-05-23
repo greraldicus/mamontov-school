@@ -27,6 +27,7 @@
     },
     data() {
       return {
+        map: null,
         modalVisible: false,
         isNewWorkplace: true,
         imgWidth: null,
@@ -55,13 +56,19 @@
       }
     }
     },
+    updated(prevProps) {
+      if (prevProps?.imgUrl != this.imgUrl) {
+        this.map?.remove();
+        this.map = null;
+      }
+    },
     watch: {
       imgUrl: {
         immediate: true,
         handler(newVal) {
           this.getImageSize(newVal)
           .then(response => {
-            var map = L.map('map', {
+            this.map = L.map('map', {
               minZoom: 1,
               maxZoom: 2,
               center: [0, 0],
@@ -71,17 +78,17 @@
             var w = this.imgWidth;
             var h = this.imgHeight;
             var url = newVal;
-            var southWest = map.unproject([0, h], map.getMaxZoom()-1);
-            var northEast = map.unproject([w, 0], map.getMaxZoom()-1);
+            var southWest = this.map.unproject([0, h], this.map.getMaxZoom()-1);
+            var northEast = this.map.unproject([w, 0], this.map.getMaxZoom()-1);
             var bounds = new L.LatLngBounds(southWest, northEast);
 
-            L.imageOverlay(url, bounds).addTo(map);
+            L.imageOverlay(url, bounds).addTo(this.map);
 
-            map.setMaxBounds(bounds);
+            this.map.setMaxBounds(bounds);
             
-            map.on('click', (e) => {
+            this.map.on('click', (e) => {
               // Создаем новый маркер на месте клика
-              const newMarker = L.marker(e.latlng).addTo(map);
+              const newMarker = L.marker(e.latlng).addTo(this.map);
 
               // Добавляем обработчик события клика на маркер
               newMarker.on('click', () => {

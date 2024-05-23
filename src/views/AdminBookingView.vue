@@ -13,5 +13,7 @@
 </script>
 
 <style scoped>
-  
+  h1 {
+    width: 100%;
+  }
 </style>
