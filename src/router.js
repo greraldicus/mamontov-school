@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import BookingView from "./views/BookingView";
-import MapView from "./views/MapView";
 import ProfileView from "./views/ProfileView";
 import ModalStartMenu from "./components/modals/ModalStartMenu";
 import Home from "./components/Home";
@@ -48,7 +47,7 @@ const router = createRouter({
         },
         {
           path: 'map',
-          component: MapView
+          component: AdminMapView
         }
       ]
     },

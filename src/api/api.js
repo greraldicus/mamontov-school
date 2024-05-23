@@ -544,6 +544,49 @@ async function createWorkplace(wpAddress, wpImgUrl, wpTypeId, wpOfficeId, wpAttr
   }
 }
 
+async function getOffices() {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+  let options = {
+    method: 'GET',
+    headers: {
+      'accept': 'application/json',
+    },
+  }
+  return fetch(`${baseURL}/${prefixOne}/offices/get_offices`, options)
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error(response.status);
+    }
+  })
+  }
+}
+
+async function getMaps(officeId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+  let options = {
+    method: 'GET',
+    headers: {
+      'accept': 'application/json',
+    },
+  }
+  return fetch(`${baseURL}/${prefixOne}/maps/get_maps_by_office_id?office_id=${officeId}`, options)
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error(response.status);
+    }
+  })
+  }
+}
 
 export {
   authenticateUser,
@@ -566,5 +609,7 @@ export {
   getAttributesByWorkplaceId,
   deleteWorkplace,
   createWorkplace,
-  deleteWorkplaceAttribute
+  deleteWorkplaceAttribute,
+  getOffices,
+  getMaps
 }
