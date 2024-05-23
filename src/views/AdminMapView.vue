@@ -37,6 +37,7 @@
     </div>
     <booking-map
     :imgUrl="this.currentFloor.mp_layer_img_url"
+    :floorId="this.currentFloor.mp_id"
     >
     </booking-map>
   </div>
@@ -74,7 +75,6 @@
         },
         floorsList: [],
         dropdownFloorsVisible: false,
-        
       }
     },
     methods: {

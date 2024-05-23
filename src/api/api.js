@@ -420,6 +420,28 @@ async function getWorkplaces() {
   }
 }
 
+async function getWorkplacesByFloorId(floorId) {
+  if (!isAuthenticated()) {
+    router.push('/auth');
+  }
+  else {
+    let options = {
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+      },
+    }
+    return fetch(`${baseURL}/${prefixOne}/get_workplaces_by_map_id?map_id=${floorId}`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+  }
+}
+
 async function getWorkplaceInfo(workplaceId) {
   if (!isAuthenticated()) {
     router.push('/auth');
@@ -588,6 +610,8 @@ async function getMaps(officeId) {
   }
 }
 
+
+
 export {
   authenticateUser,
   getPersonInfo,
@@ -605,6 +629,7 @@ export {
   uploadFile,
   downloadFile,
   getWorkplaces,
+  getWorkplacesByFloorId,
   getWorkplaceInfo,
   getAttributesByWorkplaceId,
   deleteWorkplace,
