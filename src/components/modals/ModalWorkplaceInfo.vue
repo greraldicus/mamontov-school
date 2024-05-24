@@ -184,7 +184,7 @@
         workplaceInfo: {
           id: null,
           address: "",
-          imgUrl: "",
+          imgUrl: "https://parma-coworking.ru/api_v1/files/download/20240524070813_6a4ed392_workplace.png",
           officeId: null,
           type: {
             title: "",
