@@ -135,7 +135,7 @@
     left: 20px;
     display: flex;
     flex-direction: row;
-    z-index: 100000000000000000000;
+    z-index: 10000000000000000;
   }
   
   .office-button-wrapper {

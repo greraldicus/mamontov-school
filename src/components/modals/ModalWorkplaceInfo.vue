@@ -126,6 +126,19 @@
       },
       isNewWorkplace: {
         type: Boolean
+      },
+      wpCoords: {
+        type: Object,
+        default: {
+          x: null,
+          y: null,
+        }
+      },
+      wpFloorId: {
+        type: Number
+      },
+      newOfficeId: {
+        type: Number,
       }
     },
     components: {
@@ -143,9 +156,11 @@
         } else {
           createWorkplace(this.workplaceInfo.address,
           this.workplaceInfo.imgUrl,
-          this.workplaceInfo.type.id,
-          this.workplaceInfo.officeId,
-          this.getAttributesId
+          1,
+          this.newOfficeId,
+          this.getAttributesId,
+          this.wpCoords,
+          this.wpFloorId,
           )
           .then(response => location.reload())
           .catch(error_code => alert(error_code));
@@ -259,6 +274,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10000000000000000;
   }
 
   .modal .overlay {
@@ -277,7 +293,7 @@
     flex-direction: column;
     align-items: left;
     position: relative;
-    z-index: 5;
+    z-index: 100000000000000000;
     min-width: 800px;
     height: 80%;
     border-radius: 10px;

@@ -534,7 +534,9 @@ async function deleteWorkplaceAttribute(workplaceAttrId) {
   }
 }
 
-async function createWorkplace(wpAddress, wpImgUrl, wpTypeId, wpOfficeId, wpAttributesId) {
+async function createWorkplace(wpAddress, wpImgUrl, wpTypeId, wpOfficeId, wpAttributesId,
+wpCoords, wpFloorId
+) {
   if (!isAuthenticated()) {
     router.push('/auth');
   }
@@ -552,6 +554,9 @@ async function createWorkplace(wpAddress, wpImgUrl, wpTypeId, wpOfficeId, wpAttr
         wp_img_url: wpImgUrl,
         wp_wptype_id: wpTypeId,
         wp_of_id: wpOfficeId,
+        wp_x_coord: Math.ceil(wpCoords.x),
+        wp_y_coord: Math.ceil(wpCoords.y),
+        wp_mp_id: wpFloorId,
         wp_attributes_id: wpAttributesId
       })
     }
