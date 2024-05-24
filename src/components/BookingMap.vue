@@ -10,6 +10,7 @@
     :wpCoords="this.currentWpCoords"
     :wpFloorId="this.floorId"
     :newOfficeId="this.floorId"
+    :activeWorkplaceId="this.currentWpId"
     @closeModalWindow="processCloseModal"
     >
 
@@ -40,6 +41,7 @@
           isNewWorkplace: true,
           imgWidth: null,
           imgHeight: null,
+          currentWpId: null,
           currentWpCoords: {
             x: null,
             y: null
@@ -65,6 +67,23 @@
             throw new Error('Failed to load image');
           }
         },
+
+        handleMarkerClick(wpId){ 
+          this.isNewWorkplace = false;
+          this.currentWpId = wpId;
+          this.modalVisible = true;
+        },
+
+        handleMapClick(event) {
+          // Клик на карту
+          this.currentWpCoords.x = event.latlng.lat;
+          this.currentWpCoords.y = event.latlng.lng;
+
+          this.currentMarker = L.marker(event.latlng).addTo(this.map);
+          this.isNewWorkplace = true;
+          this.modalVisible = true;
+        },
+
         async setMap(imgUrl) {
           return this.getImageSize(imgUrl)
             .then(response => {
@@ -86,29 +105,19 @@
 
             this.map.setMaxBounds(bounds);
             
-            this.map.on('click', (e) => {
-              
-              this.currentMarker = L.marker(e.latlng).addTo(this.map);
+            this.map.on('click', this.handleMapClick);
 
-              // Добавляем обработчик события клика на маркер
-              this.currentMarker.on('click', () => {
-                
-                console.log(newMarker._latlng);
-              });
-              this.modalVisible = true;
-            });
-            console.log('Сначала отрисовали карту');
             return Promise.resolve();
           });
         },
 
         async drawMarkers(floorId) {
           if (this.map !== null ) {
-            console.log('Затем зашли в drawMarkers');
             return getWorkplacesByFloorId(floorId)
             .then(response => {
               for (let wpCoords of response) {
                 const newMarker = L.marker([wpCoords.wp_x_coord, wpCoords.wp_y_coord]).addTo(this.map);
+                newMarker.on('click', () => this.handleMarkerClick(wpCoords.wp_id));
               }
               return Promise.resolve();
             })
@@ -126,7 +135,7 @@
 
         processCloseModal() {
           this.modalVisible = false;
-          this.currentMarker.remove();
+          this.currentMarker?.remove();
           this.currentMarker = null;
         }
       },

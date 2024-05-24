@@ -8,7 +8,7 @@ import AdminBookingView from "./views/AdminBookingView";
 import AdminUsersView from "./views/AdminUsersView";
 import AdminWorkplacesView from "./views/AdminWorkplacesView";
 import AdminMapView from "./views/AdminMapView";
-
+import UserMapView from "./views/UserMapView";
 
 import { isAuthenticated } from "./utils/authUtils";
 import { isAdmin } from "./utils/authUtils";
@@ -47,7 +47,7 @@ const router = createRouter({
         },
         {
           path: 'map',
-          component: AdminMapView
+          component: UserMapView
         }
       ]
     },

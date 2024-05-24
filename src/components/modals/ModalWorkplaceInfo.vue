@@ -162,7 +162,9 @@
           this.wpCoords,
           this.wpFloorId,
           )
-          .then(response => location.reload())
+          .then(response => {
+            location.reload();
+          })
           .catch(error_code => alert(error_code));
         }
       },
