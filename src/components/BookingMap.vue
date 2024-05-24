@@ -92,7 +92,8 @@
               maxZoom: 2,
               center: [0, 0],
               zoom: 1,
-              crs: L.CRS.Simple
+              crs: L.CRS.Simple,
+              attributionControl: false
             });
             var w = this.imgWidth;
             var h = this.imgHeight;
@@ -158,14 +159,5 @@
       height: 500px;
       width: 100%; 
       z-index: 0;
-    }
-    .close-flag {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      height: 30px;
-      width: 100px;
-      background-color: black;
-      z-index: 1500000;
     }
   </style>

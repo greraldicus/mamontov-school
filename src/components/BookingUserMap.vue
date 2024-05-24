@@ -1,5 +1,5 @@
 <template>
-  <div id="map">
+  <div id="user-map">
     <div class="close-flag">
 
     </div>
@@ -87,7 +87,7 @@
       async setMap(imgUrl) {
         return this.getImageSize(imgUrl)
           .then(response => {
-          this.map = L.map('map', {
+          this.map = L.map('user-map', {
             minZoom: 1,
             maxZoom: 2,
             center: [0, 0],
