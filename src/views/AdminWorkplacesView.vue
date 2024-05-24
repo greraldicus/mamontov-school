@@ -77,28 +77,12 @@
       getWorkplaces()
       .then(response => {
         this.workplacesList = response.map(({address, office, wp_x_coord, wp_y_coord, wp_mp_id, wp_id, type,}) => {
-
           return {
             id: wp_id,
             'Офис': office.of_name,
             'Адрес места': address,
             'Тип': type.wptype_title
           }
-          // let tmp_address = item.address;
-          // let tmp_type = item.type.wptype_title;
-          // let tmp_id = item.wp_id;
-          // let tmp_office = item.office.of_name;
-          // delete item.address;
-          // delete item.type;
-          // delete item.wp_id;
-          // delete item.office;
-          // delete item.wp_x_coord;
-          // delete item.item.wp_y_coord;
-          // delete item.wp_mp_id;
-          // item['id'] = tmp_id;
-          // item['Офис'] = tmp_office;
-          // item['Адрес места'] = tmp_address;
-          // item['Тип'] = tmp_type;
         })
       })
       .catch(error_code => alert(`Ошибка с кодом ${error_code}`));
