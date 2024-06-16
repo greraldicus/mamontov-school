@@ -496,7 +496,7 @@ async function deleteWorkplace(workplaceId) {
       method: 'DELETE',
       headers: {
         'accept': 'application/json',
-        // 'Authorization': `Bearer ${accessToken}`
+        'Authorization': `Bearer ${accessToken}`
       },
     }
     return fetch(`${baseURL}/${prefixOne}/delete_workplace?workplace_id=${workplaceId}`, options)
@@ -520,7 +520,7 @@ async function deleteWorkplaceAttribute(workplaceAttrId) {
       method: 'DELETE',
       headers: {
         'accept': 'application/json',
-        // 'Authorization': `Bearer ${accessToken}`
+        'Authorization': `Bearer ${accessToken}`
       },
     }
     return fetch(`${baseURL}/${prefixOne}/delete_workplace_attribute?wptypeattr_wp_id=${workplaceAttrId}`, options)
@@ -541,12 +541,12 @@ wpCoords, wpFloorId
     router.push('/auth');
   }
   else {
-    // let accessToken = getCookie('access-token');
+    let accessToken = getCookie('access-token');
     let options = {
       method: 'POST',
       headers: {
         'accept': 'application/json',
-        // 'Authorization': `Bearer ${accessToken}`,
+        'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({

@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <img src="https://www.parma.ru/img/Logo-2-31.svg">
+    <img src="@/images/parma_logo.svg">
     <logout-button></logout-button>
   </div>
 </template>

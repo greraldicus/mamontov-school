@@ -5,7 +5,6 @@
       :style="'align-self: flex-start'"
       >Аккаунт</h1>
       <form @submit.prevent>
-
         <div class="login">
           <h2>Логин</h2>
           <input
@@ -42,10 +41,6 @@
           </button-item>
         </div>
       </form>
-      <!-- <button-close
-      @buttonClicked="this.$emit('closeModalWindow')"
-      > 
-      </button-close> -->
     </div>
     <div class = "overlay"></div>
   </div>

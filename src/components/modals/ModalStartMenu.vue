@@ -68,7 +68,7 @@
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-image: url("../../images/baretskiy.jpg");
+    background-image: url("../../images/georgian_lary.jpg");
     background-repeat: no-repeat;
     background-size: cover;
   }
